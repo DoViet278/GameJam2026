@@ -26,10 +26,12 @@ public class TimeToMask : MonoBehaviour
        while(currTime > 0)
        {
             currTime -= timeRunMask;
+            if (currTime < 0) break;
             UpdateSlider();
             yield return new WaitForSeconds(timeRunMask);
        }
        endMask = true;
+       GameController.instance.index = 0;
     }
 
     public void UpdateSlider()

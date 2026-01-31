@@ -1,20 +1,26 @@
 using System;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public event Action onFlipped;
+
+    [SerializeField] private RuntimeAnimatorController player;
+    [SerializeField] private RuntimeAnimatorController staff;
+    [SerializeField] private RuntimeAnimatorController security;
+
     public PlayerInputSet input { get; private set; }
     public PlayerIdleState idleState { get; private set; }
-    public PlayerMoveState moveState { get; private set; }  
-    public PlayerMoveUDState moveUDState { get; private set; }  
+    public PlayerMoveState moveState { get; private set; }
+    public PlayerMoveUDState moveUDState { get; private set; }
     public PlayerMoveUpState moveUpState { get; private set; }
     public PlayerSearchState searchState { get; private set; }
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
-    public Vector2 moveInput {  get; private set; }
+    public Vector2 moveInput { get; private set; }
 
     public PlayerStateMachine stateMachine;
 
@@ -33,17 +39,19 @@ public class PlayerController : MonoBehaviour
 
     [Header("CheckShelf")]
     [SerializeField] protected LayerMask whatIsShelf;
-    [SerializeField] protected LayerMask whatIsDisguise;
+    [SerializeField] protected LayerMask whatIsClothesStaff;
+    [SerializeField] protected LayerMask whatIsClothesSecurity;
 
     public bool groundDetected { get; private set; }
-    public bool ground2Detected { get; private set; }   
+    public bool ground2Detected { get; private set; }
     public bool wallDetected { get; private set; }
 
     private TimeToMask timeToMask;
     private TimeToSearch timeToSearch;
 
-    public bool isDisguise { get; private set; }
-    public bool researchShelf {  get; private set; }
+    public bool isDisguiseStaff { get; private set; }
+    public bool isDisguiseSecurity { get; private set; }
+    public bool researchShelf { get; private set; }
 
     public bool isSearching = false;
 
@@ -56,11 +64,11 @@ public class PlayerController : MonoBehaviour
         input = new PlayerInputSet();
         idleState = new PlayerIdleState(this, stateMachine, "idle");
         moveState = new PlayerMoveState(this, stateMachine, "moveLR");
-        moveUDState = new PlayerMoveUDState(this, stateMachine, "moveUD");  
+        moveUDState = new PlayerMoveUDState(this, stateMachine, "moveUD");
         moveUpState = new PlayerMoveUpState(this, stateMachine, "moveUD");
         searchState = new PlayerSearchState(this, stateMachine, "search");
         timeToMask = GetComponent<TimeToMask>();
-        timeToSearch = GetComponent<TimeToSearch>();    
+        timeToSearch = GetComponent<TimeToSearch>();
     }
 
     private void Start()
@@ -81,8 +89,14 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (isDisguise)
+            if (isDisguiseStaff)
             {
+                GameController.instance.index = 1;
+                timeToMask.StartToMask();
+            }
+            if (isDisguiseSecurity)
+            {
+                GameController.instance.index = 2;
                 timeToMask.StartToMask();
             }
             if (researchShelf)
@@ -92,6 +106,10 @@ public class PlayerController : MonoBehaviour
                 timeToSearch.StartSearch();
             }
         }
+
+        if(GameController.instance.index == 0) anim.runtimeAnimatorController = player;
+        else if(GameController.instance.index == 1) anim.runtimeAnimatorController = staff;
+        else if(GameController.instance.index == 2) anim.runtimeAnimatorController = security;
     }
 
     void OnDisable()
@@ -102,15 +120,16 @@ public class PlayerController : MonoBehaviour
     public void SetVelocity(float xVelocity, float yVelocity)
     {
         rb.velocity = new Vector2(xVelocity, yVelocity);
-        HandleFlipLeft(xVelocity);  
+        HandleFlipLeft(xVelocity);
     }
 
     public void HandleFlipLeft(float xVelocity)
     {
-        if(xVelocity > 0 && facingLeft == true)
+        if (xVelocity > 0 && facingLeft == true)
         {
             FlipLeftRight();
-        }else if (xVelocity < 0 && facingLeft == false) 
+        }
+        else if (xVelocity < 0 && facingLeft == false)
         {
             FlipLeftRight();
         }
@@ -118,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
     public void FlipLeftRight()
     {
-        transform.Rotate(0,180,0);
+        transform.Rotate(0, 180, 0);
         facingLeft = !facingLeft;
         facingDirLeft = facingDirLeft * -1;
         onFlipped?.Invoke();
@@ -129,10 +148,12 @@ public class PlayerController : MonoBehaviour
         researchShelf = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsShelf) ||
            Physics2D.Raycast(groundCheck.position, Vector2.up, groundCheckDistance, whatIsShelf) ||
            Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsShelf);
-        
-        isDisguise = 
-           Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsDisguise);
 
+        isDisguiseStaff =
+           Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsClothesStaff);
+
+        isDisguiseSecurity =
+            Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsClothesSecurity);
 
     }
     protected virtual void OnDrawGizmos()
