@@ -1,6 +1,6 @@
 using System;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,15 +37,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform ground2Check;
     [SerializeField] private Transform primaryWallCheck;
 
-    [Header("CheckShelf")]
+    [Header("CheckCollider")]
     [SerializeField] protected LayerMask whatIsShelf;
     [SerializeField] protected LayerMask whatIsClothesStaff;
     [SerializeField] protected LayerMask whatIsClothesSecurity;
+    [SerializeField] protected LayerMask whatIsDoor;
 
     public bool groundDetected { get; private set; }
     public bool ground2Detected { get; private set; }
     public bool wallDetected { get; private set; }
 
+    public bool doorDetected; 
     private TimeToMask timeToMask;
     private TimeToSearch timeToSearch;
 
@@ -54,7 +56,7 @@ public class PlayerController : MonoBehaviour
     public bool researchShelf { get; private set; }
 
     public bool isSearching = false;
-
+    public bool isClickDoor = false;
 
     void Awake()
     {
@@ -92,18 +94,22 @@ public class PlayerController : MonoBehaviour
             if (isDisguiseStaff)
             {
                 GameController.instance.index = 1;
-                timeToMask.StartToMask();
+                timeToMask?.StartToMask();
             }
             if (isDisguiseSecurity)
             {
                 GameController.instance.index = 2;
-                timeToMask.StartToMask();
+                timeToMask?.StartToMask();
             }
             if (researchShelf)
             {
                 isSearching = true;
                 stateMachine.ChangeState(searchState);
-                timeToSearch.StartSearch();
+                timeToSearch?.StartSearch();
+            }
+            if (doorDetected)
+            {
+                isClickDoor = !isClickDoor;
             }
         }
 
@@ -150,11 +156,14 @@ public class PlayerController : MonoBehaviour
            Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsShelf);
 
         isDisguiseStaff =
-           Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsClothesStaff);
+           Physics2D.Raycast(primaryWallCheck.position, Vector2.up, groundCheckDistance * 1.5f, whatIsClothesStaff);
 
         isDisguiseSecurity =
-            Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsClothesSecurity);
+            Physics2D.Raycast(primaryWallCheck.position, Vector2.up, groundCheckDistance * 1.5f, whatIsClothesSecurity);
 
+        doorDetected = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsDoor) ||
+           Physics2D.Raycast(groundCheck.position, Vector2.up, groundCheckDistance, whatIsDoor) ||
+           Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsDoor);
     }
     protected virtual void OnDrawGizmos()
     {

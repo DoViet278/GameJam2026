@@ -6,6 +6,13 @@ public class Vision : MonoBehaviour
     [Range(0f, 360f)]
     public float viewAngle = 120f;
     public LayerMask obstructionMask;
+    [Tooltip("Tag used for walls that block vision when obstructionMask is empty. Leave empty to ignore tags.")]
+    public string wallTag = "Wall";
+
+    [Header("End Game")]
+    [SerializeField] private bool triggerEndGameOnDetect = true;
+    [SerializeField] private bool autoFindEndGameUI = true;
+    [SerializeField] private EndGameUI endGameUI;
 
     public bool drawGizmos = true;
     public bool drawWhenSelected = true;
@@ -22,21 +29,26 @@ public class Vision : MonoBehaviour
     public bool logPlayerDetected = true;
 
     public bool DidSeePlayerThisFrame { get; private set; }
+    public bool EndGameTriggered { get; private set; }
 
     private Vector2 lookDirection = Vector2.right;
     private Mesh runtimeMesh;
     private MeshFilter runtimeMeshFilter;
     private MeshRenderer runtimeMeshRenderer;
     private MaterialPropertyBlock runtimeMPB;
+    private RaycastHit2D[] obstructionHits = new RaycastHit2D[16];
 
     private void Awake()
     {
+        TryResolveEndGameUI();
         if (drawRuntime)
             EnsureRuntimeCone();
     }
 
     private void OnEnable()
     {
+        TryResolveEndGameUI();
+        EndGameTriggered = false;
         if (drawRuntime)
             EnsureRuntimeCone();
 
@@ -49,7 +61,7 @@ public class Vision : MonoBehaviour
             UpdateRuntimeCone();
 
         DidSeePlayerThisFrame = false;
-        if (logPlayerDetected)
+        if (logPlayerDetected && !EndGameTriggered)
             CheckForPlayerInView();
     }
 
@@ -72,12 +84,9 @@ public class Vision : MonoBehaviour
         if (Vector2.Angle(lookDirection, toTarget) > halfAngle)
             return false;
 
-        if (obstructionMask.value != 0)
-        {
-            RaycastHit2D hit = Physics2D.Linecast(origin, targetPos, obstructionMask);
-            if (hit.collider != null)
-                return false;
-        }
+        float distance = Vector2.Distance(origin, targetPos);
+        if (TryGetWallHit(origin, toTarget, distance, out _, target))
+            return false;
 
         return true;
     }
@@ -101,6 +110,7 @@ public class Vision : MonoBehaviour
             {
                 DidSeePlayerThisFrame = true;
                 Debug.Log("End Game");
+                TriggerEndGame();
                 return;
             }
         }
@@ -191,8 +201,13 @@ public class Vision : MonoBehaviour
         {
             float angle = -halfAngle + step * i;
             Vector2 worldDir = Rotate(forward, angle);
+            float distance = viewRadius;
+            if (TryGetWallHit(transform.position, worldDir, viewRadius, out float hitDistance))
+                distance = hitDistance;
+
             Vector3 localDir = transform.InverseTransformDirection(worldDir);
-            Vector3 point = localDir.normalized * radiusLocal;
+            float localDistance = scale > 0.0001f ? distance / scale : distance;
+            Vector3 point = localDir.normalized * localDistance;
             vertices[i + 1] = point;
         }
 
@@ -241,18 +256,32 @@ public class Vision : MonoBehaviour
         Gizmos.color = gizmoColor;
 
         Vector2 leftDir = Rotate(forward, -halfAngle);
+        float leftDistance = viewRadius;
+        if (TryGetWallHit(origin, leftDir, viewRadius, out float leftHit))
+            leftDistance = leftHit;
+        Vector2 leftPoint = origin + leftDir * leftDistance;
+
         Vector2 rightDir = Rotate(forward, halfAngle);
+        float rightDistance = viewRadius;
+        if (TryGetWallHit(origin, rightDir, viewRadius, out float rightHit))
+            rightDistance = rightHit;
+        Vector2 rightPoint = origin + rightDir * rightDistance;
 
-        Gizmos.DrawLine(origin, origin + leftDir * viewRadius);
-        Gizmos.DrawLine(origin, origin + rightDir * viewRadius);
+        Gizmos.DrawLine(origin, leftPoint);
+        Gizmos.DrawLine(origin, rightPoint);
 
-        Vector2 prevDir = leftDir;
+        Vector2 prevPoint = leftPoint;
         for (int i = 1; i <= segments; i++)
         {
             float angle = -halfAngle + step * i;
             Vector2 nextDir = Rotate(forward, angle);
-            Gizmos.DrawLine(origin + prevDir * viewRadius, origin + nextDir * viewRadius);
-            prevDir = nextDir;
+            float nextDistance = viewRadius;
+            if (TryGetWallHit(origin, nextDir, viewRadius, out float nextHit))
+                nextDistance = nextHit;
+
+            Vector2 nextPoint = origin + nextDir * nextDistance;
+            Gizmos.DrawLine(prevPoint, nextPoint);
+            prevPoint = nextPoint;
         }
 
         if (debugTarget != null)
@@ -269,5 +298,73 @@ public class Vision : MonoBehaviour
         float cos = Mathf.Cos(rad);
         float sin = Mathf.Sin(rad);
         return new Vector2(dir.x * cos - dir.y * sin, dir.x * sin + dir.y * cos);
+    }
+
+    private void TriggerEndGame()
+    {
+        if (!triggerEndGameOnDetect || EndGameTriggered)
+            return;
+
+        EndGameTriggered = true;
+        TryResolveEndGameUI();
+        if (endGameUI != null)
+            endGameUI.ShowLose();
+    }
+
+    private void TryResolveEndGameUI()
+    {
+        if (!autoFindEndGameUI || endGameUI != null)
+            return;
+
+        endGameUI = FindObjectOfType<EndGameUI>(true);
+    }
+
+    private bool TryGetWallHit(
+        Vector2 origin,
+        Vector2 direction,
+        float maxDistance,
+        out float hitDistance,
+        Transform ignoreTransform = null)
+    {
+        hitDistance = maxDistance;
+
+        bool useMask = obstructionMask.value != 0;
+        int mask = useMask ? obstructionMask.value : Physics2D.AllLayers;
+        int hitCount = Physics2D.RaycastNonAlloc(origin, direction, obstructionHits, maxDistance, mask);
+        if (hitCount <= 0)
+            return false;
+
+        bool requireTag = !string.IsNullOrEmpty(wallTag) && !useMask;
+        float closest = maxDistance;
+        bool found = false;
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            RaycastHit2D hit = obstructionHits[i];
+            Collider2D col = hit.collider;
+            if (col == null)
+                continue;
+
+            if (ignoreTransform != null)
+            {
+                Transform colTransform = col.transform;
+                if (colTransform == ignoreTransform || colTransform.IsChildOf(ignoreTransform))
+                    continue;
+            }
+
+            if (requireTag && !col.CompareTag(wallTag))
+                continue;
+
+            if (hit.distance < closest)
+            {
+                closest = hit.distance;
+                found = true;
+            }
+        }
+
+        if (found)
+            hitDistance = closest;
+
+        return found;
     }
 }
