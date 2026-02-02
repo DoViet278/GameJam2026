@@ -9,7 +9,7 @@ public class TimeToMask : MonoBehaviour
     private float currTime;
     private float timeRunMask = 1f;
     private Slider timeSlider;
-    public bool endMask = false;
+    public bool isMasking = false;
     private void Start()
     {
         currTime = timeToMask;
@@ -17,12 +17,21 @@ public class TimeToMask : MonoBehaviour
     }
     public void StartToMask()
     {
-        endMask = false;
-        StartCoroutine(StartMask());
+        if(!isMasking)
+        {
+            ResetTime();
+            StartCoroutine(StartMask());
+        }
+    }
+
+    public void ResetTime()
+    {
+        currTime = timeToMask;
     }
 
     private IEnumerator StartMask()
     {
+        isMasking = true;
        while(currTime > 0)
        {
             currTime -= timeRunMask;
@@ -30,14 +39,17 @@ public class TimeToMask : MonoBehaviour
             UpdateSlider();
             yield return new WaitForSeconds(timeRunMask);
        }
-       endMask = true;
+       isMasking = false;
        GameController.instance.index = 0;
     }
 
     public void UpdateSlider()
     {
         timeSlider = GameObject.Find("TimeSlider").GetComponent<Slider>();
-        timeSlider.value = currTime;
-        timeSlider.maxValue = timeToMask;
+        if (timeSlider != null)
+        {
+            timeSlider.value = currTime;
+            timeSlider.maxValue = timeToMask;
+        }
     }
 }

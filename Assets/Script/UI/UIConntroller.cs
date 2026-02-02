@@ -20,6 +20,8 @@ public class UIConntroller : MonoBehaviour
 
     public void LoadHome()
     {
+        GameController.instance.isGameOver = false;
+        Time.timeScale = 1f;    
         SceneManager.LoadScene(homeScene);
     }
 
@@ -30,6 +32,8 @@ public class UIConntroller : MonoBehaviour
 
     public void LoadMain()
     {
+        GameController.instance.isGameOver = false;
+        Time.timeScale = 1f;
         SceneManager.LoadScene(mainScene);
     }
 

@@ -34,6 +34,15 @@ public class EndGameUI : MonoBehaviour
         Show(false);
     }
 
+    private void Update()
+    {
+        if (GameController.instance.isGameOver)
+        {
+            GameController.instance.isGameOver = false;
+            ShowLose();
+            Time.timeScale = 0f;
+        }
+    }
     public void Show(bool isWin)
     {
         if (running != null)
@@ -95,6 +104,7 @@ public class EndGameUI : MonoBehaviour
         }
         else
         {
+            Debug.Log("Show Lose Popup");
             if (losePopup != null) losePopup.SetActive(true);
         }
 

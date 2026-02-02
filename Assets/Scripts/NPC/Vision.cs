@@ -307,8 +307,7 @@ public class Vision : MonoBehaviour
 
         EndGameTriggered = true;
         TryResolveEndGameUI();
-        if (endGameUI != null)
-            endGameUI.ShowLose();
+        GameController.instance.isGameOver = true;
     }
 
     private void TryResolveEndGameUI()

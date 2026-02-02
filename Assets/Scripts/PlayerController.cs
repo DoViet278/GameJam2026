@@ -91,13 +91,15 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (isDisguiseStaff)
+            if (isDisguiseStaff && timeToMask.isMasking == false)
             {
+                Debug.LogError("mask staff");
                 GameController.instance.index = 1;
                 timeToMask?.StartToMask();
             }
-            if (isDisguiseSecurity)
+            if (isDisguiseSecurity && timeToMask.isMasking == false)
             {
+                Debug.LogError("mask security");
                 GameController.instance.index = 2;
                 timeToMask?.StartToMask();
             }
@@ -107,15 +109,23 @@ public class PlayerController : MonoBehaviour
                 stateMachine.ChangeState(searchState);
                 timeToSearch?.StartSearch();
             }
-            if (doorDetected)
-            {
-                isClickDoor = !isClickDoor;
-            }
         }
 
-        if(GameController.instance.index == 0) anim.runtimeAnimatorController = player;
-        else if(GameController.instance.index == 1) anim.runtimeAnimatorController = staff;
-        else if(GameController.instance.index == 2) anim.runtimeAnimatorController = security;
+        if(GameController.instance.index == 0)
+        {
+            anim.runtimeAnimatorController = player;
+            gameObject.tag = "Player";  
+        }
+        else if(GameController.instance.index == 1)
+        {
+            anim.runtimeAnimatorController = staff;
+            gameObject.tag = "Untagged";
+        }
+        else if(GameController.instance.index == 2)
+        {
+            anim.runtimeAnimatorController = security;
+            gameObject.tag = "Untagged";
+        }
     }
 
     void OnDisable()
@@ -158,6 +168,7 @@ public class PlayerController : MonoBehaviour
         isDisguiseStaff =
            Physics2D.Raycast(primaryWallCheck.position, Vector2.up, groundCheckDistance * 1.5f, whatIsClothesStaff);
 
+        Debug.LogError(isDisguiseStaff);
         isDisguiseSecurity =
             Physics2D.Raycast(primaryWallCheck.position, Vector2.up, groundCheckDistance * 1.5f, whatIsClothesSecurity);
 

@@ -8,6 +8,7 @@ public class Door : MonoBehaviour
     private PlayerController playerController;
     private BoxCollider2D boxCollider;
     private bool isOpen = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -15,11 +16,20 @@ public class Door : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
     }
 
-    private void Update()
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (Vector2.Distance(transform.position,playerController.gameObject.transform.position) < 5f && playerController.isClickDoor)
+        if (!isOpen && Input.GetKeyDown(KeyCode.E))
         {
-           if(!isOpen) StartCoroutine(OpenDoor());  
+            StartCoroutine(OpenDoor());
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!isOpen && Input.GetKeyDown(KeyCode.E))
+        {
+            StartCoroutine(OpenDoor());
         }
     }
 

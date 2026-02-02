@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
     public static GameController instance;
 
     public int index;
+    public bool isGameOver = false;
+    public bool isWin = false;
 
     private void Awake()
     {
