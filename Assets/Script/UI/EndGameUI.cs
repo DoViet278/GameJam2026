@@ -41,6 +41,12 @@ public class EndGameUI : MonoBehaviour
             GameController.instance.isGameOver = false;
             ShowLose();
             Time.timeScale = 0f;
+        }else if (GameController.instance.isWin)
+        {
+            GameController.instance.isWin = false;
+            GameController.instance.hasCoin = false;
+            ShowWin();
+            Time.timeScale = 0f;
         }
     }
     public void Show(bool isWin)

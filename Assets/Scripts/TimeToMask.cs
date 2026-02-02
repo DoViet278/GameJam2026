@@ -17,9 +17,9 @@ public class TimeToMask : MonoBehaviour
     }
     public void StartToMask()
     {
+        ResetTime();
         if(!isMasking)
         {
-            ResetTime();
             StartCoroutine(StartMask());
         }
     }

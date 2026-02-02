@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     public int index;
     public bool isGameOver = false;
     public bool isWin = false;
-
+    public bool hasCoin = false;
     private void Awake()
     {
         if(instance == null)

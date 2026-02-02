@@ -8,6 +8,7 @@ public class Door : MonoBehaviour
     private PlayerController playerController;
     private BoxCollider2D boxCollider;
     private bool isOpen = false;
+    private bool canOpen = false;
 
     private void Awake()
     {
@@ -17,17 +18,17 @@ public class Door : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!isOpen && Input.GetKeyDown(KeyCode.E))
+        if (collision.gameObject.name == "Player")
         {
-            StartCoroutine(OpenDoor());
+            canOpen = true;
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void Update()
     {
-        if (!isOpen && Input.GetKeyDown(KeyCode.E))
+        if(Input.GetKeyDown(KeyCode.E) && canOpen)
         {
             StartCoroutine(OpenDoor());
         }
@@ -35,11 +36,13 @@ public class Door : MonoBehaviour
 
     private IEnumerator OpenDoor()
     {
+        canOpen = false;
         isOpen = true;
         animator.SetBool("open",true);
         boxCollider.enabled = false;
-        yield return new WaitForSeconds(1f);
+        yield return null;
         isOpen = false;
+
     }
 
 }
