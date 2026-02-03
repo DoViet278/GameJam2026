@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    private enum DoorType
+    {
+        NoKey,
+        KeyRequired,
+        CardRequired    
+    }
+
+    [SerializeField] private DoorType type;
     private Animator animator;
-    private PlayerController playerController;
     private BoxCollider2D boxCollider;
     private bool isOpen = false;
     private bool canOpen = false;
@@ -14,13 +21,12 @@ public class Door : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
-        playerController = FindObjectOfType<PlayerController>();
     }
 
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.name == "Player" && type == DoorType.NoKey)
         {
             canOpen = true;
         }
@@ -46,3 +52,4 @@ public class Door : MonoBehaviour
     }
 
 }
+

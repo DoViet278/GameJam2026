@@ -5,9 +5,30 @@ public class Vision : MonoBehaviour
     public float viewRadius = 5f;
     [Range(0f, 360f)]
     public float viewAngle = 120f;
+    [Tooltip("Tag used to identify targets. Leave empty to allow any tag.")]
+    public string targetTag = "Player";
+    [Tooltip("Only consider colliders on these layers. Leave empty to include all layers.")]
+    public LayerMask targetMask;
+    [Tooltip("Ignore trigger colliders when checking for targets in view.")]
+    public bool ignoreTriggerColliders = true;
+    [Tooltip("Require a PlayerController on the target or its parents.")]
+    public bool requirePlayerComponent = true;
+    [Tooltip("Use NPC tag rules (Boss sees all, Security ignores Security, Staff ignores Staff).")]
+    public bool useNpcTagRules = true;
+    public string bossTag = "Boss";
+    public string securityTag = "Security";
+    public string staffTag = "Staff";
     public LayerMask obstructionMask;
-    [Tooltip("Tag used for walls that block vision when obstructionMask is empty. Leave empty to ignore tags.")]
+    [Tooltip("Tag used for walls that block vision. Leave empty to ignore tags.")]
     public string wallTag = "Wall";
+    [Tooltip("Optional transform used as the origin for vision checks and gizmos. If null, uses this transform.")]
+    public Transform viewOrigin;
+    [Tooltip("Optional transform that defines the look direction (its right vector). If null, uses viewOrigin then this transform.")]
+    public Transform lookDirectionSource;
+    [Tooltip("Sync look direction to transform rotation when it changes and no manual look direction was set that frame.")]
+    public bool syncLookDirectionToRotation = true;
+    [Tooltip("Minimum rotation change (degrees) needed to sync look direction.")]
+    public float rotationSyncThreshold = 0.1f;
 
     [Header("End Game")]
     [SerializeField] private bool triggerEndGameOnDetect = true;
@@ -31,18 +52,43 @@ public class Vision : MonoBehaviour
     public bool DidSeePlayerThisFrame { get; private set; }
     public bool EndGameTriggered { get; private set; }
 
+    private enum NpcRole
+    {
+        None,
+        Boss,
+        Security,
+        Staff
+    }
+
+    private enum PlayerRole
+    {
+        Unknown,
+        Player,
+        Staff,
+        Security
+    }
+
     private Vector2 lookDirection = Vector2.right;
     private Mesh runtimeMesh;
     private MeshFilter runtimeMeshFilter;
     private MeshRenderer runtimeMeshRenderer;
     private MaterialPropertyBlock runtimeMPB;
     private RaycastHit2D[] obstructionHits = new RaycastHit2D[16];
+    private int lastLookDirectionFrame = -1;
+    private float lastRotationZ;
 
     private void Awake()
     {
         TryResolveEndGameUI();
         if (drawRuntime)
             EnsureRuntimeCone();
+        lastRotationZ = transform.eulerAngles.z;
+        if (!TryUpdateLookDirectionFromSource() && syncLookDirectionToRotation && lastLookDirectionFrame < 0)
+        {
+            Vector2 dir = transform.right;
+            if (dir.sqrMagnitude > 0.0001f)
+                lookDirection = dir.normalized;
+        }
     }
 
     private void OnEnable()
@@ -52,11 +98,19 @@ public class Vision : MonoBehaviour
         if (drawRuntime)
             EnsureRuntimeCone();
 
+        lastRotationZ = transform.eulerAngles.z;
+        if (!TryUpdateLookDirectionFromSource() && syncLookDirectionToRotation && lastLookDirectionFrame < 0)
+        {
+            Vector2 dir = transform.right;
+            if (dir.sqrMagnitude > 0.0001f)
+                lookDirection = dir.normalized;
+        }
         UpdateRuntimeCone();
     }
 
     private void LateUpdate()
     {
+        SyncLookDirectionToRotation();
         if (drawRuntime)
             UpdateRuntimeCone();
 
@@ -70,30 +124,25 @@ public class Vision : MonoBehaviour
         if (target == null)
             return false;
 
-        Vector2 origin = transform.position;
-        Vector2 targetPos = target.position;
+        return CanSeeInternal(target.position, target);
+    }
 
-        if (Vector2.Distance(origin, targetPos) > viewRadius)
+    public bool CanDetect(Transform target)
+    {
+        if (!TryResolveTarget(target, out Transform tagTarget))
             return false;
 
-        if (lookDirection.sqrMagnitude < 0.0001f)
+        if (!IsTargetAllowed(tagTarget))
             return false;
 
-        Vector2 toTarget = (targetPos - origin).normalized;
-        float halfAngle = viewAngle * 0.5f;
-        if (Vector2.Angle(lookDirection, toTarget) > halfAngle)
-            return false;
-
-        float distance = Vector2.Distance(origin, targetPos);
-        if (TryGetWallHit(origin, toTarget, distance, out _, target))
-            return false;
-
-        return true;
+        return CanSeeInternal(tagTarget.position, tagTarget);
     }
 
     private void CheckForPlayerInView()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, viewRadius);
+        Vector2 origin = GetOrigin();
+        int mask = targetMask.value != 0 ? targetMask.value : Physics2D.AllLayers;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(origin, viewRadius, mask);
         if (hits == null || hits.Length == 0)
             return;
 
@@ -102,11 +151,11 @@ public class Vision : MonoBehaviour
             if (hits[i] == null)
                 continue;
 
-            if (!hits[i].CompareTag("Player"))
+            if (ignoreTriggerColliders && hits[i].isTrigger)
                 continue;
 
-            Transform target = hits[i].transform;
-            if (CanSee(target))
+            Transform target = hits[i].attachedRigidbody != null ? hits[i].attachedRigidbody.transform : hits[i].transform;
+            if (CanDetect(target))
             {
                 DidSeePlayerThisFrame = true;
                 Debug.Log("End Game");
@@ -119,7 +168,10 @@ public class Vision : MonoBehaviour
     public void SetLookDirection(Vector2 dir)
     {
         if (dir.sqrMagnitude > 0.0001f)
+        {
             lookDirection = dir.normalized;
+            lastLookDirectionFrame = Time.frameCount;
+        }
     }
 
     private void EnsureRuntimeCone()
@@ -191,23 +243,25 @@ public class Vision : MonoBehaviour
         float step = viewAngle / segments;
         float scale = Mathf.Max(Mathf.Abs(transform.lossyScale.x), Mathf.Abs(transform.lossyScale.y));
         float radiusLocal = scale > 0.0001f ? viewRadius / scale : viewRadius;
+        Vector2 origin = GetOrigin();
+        Vector3 localOrigin = viewOrigin != null ? transform.InverseTransformPoint(origin) : Vector3.zero;
 
         Vector3[] vertices = new Vector3[segments + 2];
         int[] triangles = new int[segments * 3];
 
-        vertices[0] = Vector3.zero;
+        vertices[0] = localOrigin;
 
         for (int i = 0; i <= segments; i++)
         {
             float angle = -halfAngle + step * i;
             Vector2 worldDir = Rotate(forward, angle);
             float distance = viewRadius;
-            if (TryGetWallHit(transform.position, worldDir, viewRadius, out float hitDistance))
+            if (TryGetWallHit(origin, worldDir, viewRadius, out float hitDistance))
                 distance = hitDistance;
 
             Vector3 localDir = transform.InverseTransformDirection(worldDir);
             float localDistance = scale > 0.0001f ? distance / scale : distance;
-            Vector3 point = localDir.normalized * localDistance;
+            Vector3 point = localOrigin + localDir.normalized * localDistance;
             vertices[i + 1] = point;
         }
 
@@ -246,7 +300,7 @@ public class Vision : MonoBehaviour
 
     private void DrawViewCone()
     {
-        Vector2 origin = transform.position;
+        Vector2 origin = GetOrigin();
         Vector2 forward = lookDirection.sqrMagnitude > 0.0001f ? lookDirection.normalized : Vector2.right;
 
         float halfAngle = viewAngle * 0.5f;
@@ -300,6 +354,180 @@ public class Vision : MonoBehaviour
         return new Vector2(dir.x * cos - dir.y * sin, dir.x * sin + dir.y * cos);
     }
 
+    private bool CanSeeInternal(Vector2 targetPos, Transform ignoreTransform)
+    {
+        Vector2 origin = GetOrigin();
+
+        if (Vector2.Distance(origin, targetPos) > viewRadius)
+            return false;
+
+        if (lookDirection.sqrMagnitude < 0.0001f)
+            return false;
+
+        Vector2 toTarget = (targetPos - origin).normalized;
+        float halfAngle = viewAngle * 0.5f;
+        if (Vector2.Angle(lookDirection, toTarget) > halfAngle)
+            return false;
+
+        float distance = Vector2.Distance(origin, targetPos);
+        if (TryGetWallHit(origin, toTarget, distance, out _, ignoreTransform))
+            return false;
+
+        return true;
+    }
+
+    private bool TryResolveTarget(Transform target, out Transform tagTarget)
+    {
+        tagTarget = target;
+        if (target == null)
+            return false;
+
+        if (!requirePlayerComponent)
+            return true;
+
+        PlayerController player = target.GetComponentInParent<PlayerController>();
+        if (player == null)
+            return false;
+
+        tagTarget = player.transform;
+        return true;
+    }
+
+    private bool IsTargetAllowed(Transform target)
+    {
+        if (target == null)
+            return false;
+
+        if (useNpcTagRules)
+        {
+            NpcRole npcRole = GetNpcRole();
+            if (npcRole != NpcRole.None)
+            {
+                PlayerRole playerRole = GetPlayerRole(target);
+                if (playerRole != PlayerRole.Unknown)
+                {
+                    switch (npcRole)
+                    {
+                        case NpcRole.Boss:
+                            return playerRole == PlayerRole.Player ||
+                                playerRole == PlayerRole.Staff ||
+                                playerRole == PlayerRole.Security;
+                        case NpcRole.Security:
+                            return playerRole == PlayerRole.Player || playerRole == PlayerRole.Staff;
+                        case NpcRole.Staff:
+                            return playerRole == PlayerRole.Player;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(bossTag) && CompareTag(bossTag))
+                return true;
+
+            if (!string.IsNullOrEmpty(securityTag) && CompareTag(securityTag))
+                return !target.CompareTag(securityTag);
+
+            if (!string.IsNullOrEmpty(staffTag) && CompareTag(staffTag))
+                return !target.CompareTag(staffTag);
+        }
+
+        if (string.IsNullOrEmpty(targetTag))
+            return true;
+
+        return target.CompareTag(targetTag);
+    }
+
+    private NpcRole GetNpcRole()
+    {
+        if (TryGetComponent<BossNPC>(out _))
+            return NpcRole.Boss;
+        if (TryGetComponent<SecurityNPC>(out _))
+            return NpcRole.Security;
+        if (TryGetComponent<StaffNPC>(out _))
+            return NpcRole.Staff;
+
+        if (!string.IsNullOrEmpty(bossTag) && CompareTag(bossTag))
+            return NpcRole.Boss;
+        if (!string.IsNullOrEmpty(securityTag) && CompareTag(securityTag))
+            return NpcRole.Security;
+        if (!string.IsNullOrEmpty(staffTag) && CompareTag(staffTag))
+            return NpcRole.Staff;
+
+        return NpcRole.None;
+    }
+
+    private PlayerRole GetPlayerRole(Transform target)
+    {
+        PlayerController player = target.GetComponentInParent<PlayerController>();
+        if (player == null)
+            return PlayerRole.Unknown;
+
+        if (GameController.instance != null)
+        {
+            switch (GameController.instance.index)
+            {
+                case 0:
+                    return PlayerRole.Player;
+                case 1:
+                    return PlayerRole.Staff;
+                case 2:
+                    return PlayerRole.Security;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(staffTag) && player.CompareTag(staffTag))
+            return PlayerRole.Staff;
+        if (!string.IsNullOrEmpty(securityTag) && player.CompareTag(securityTag))
+            return PlayerRole.Security;
+        if (string.IsNullOrEmpty(targetTag) || player.CompareTag(targetTag))
+            return PlayerRole.Player;
+
+        return PlayerRole.Unknown;
+    }
+
+    private void SyncLookDirectionToRotation()
+    {
+        if (TryUpdateLookDirectionFromSource())
+            return;
+
+        if (!syncLookDirectionToRotation)
+            return;
+
+        float currentZ = transform.eulerAngles.z;
+        bool rotationChanged = Mathf.Abs(Mathf.DeltaAngle(lastRotationZ, currentZ)) > rotationSyncThreshold;
+        if (rotationChanged && lastLookDirectionFrame != Time.frameCount)
+        {
+            Vector2 dir = transform.right;
+            if (dir.sqrMagnitude > 0.0001f)
+                lookDirection = dir.normalized;
+        }
+
+        lastRotationZ = currentZ;
+    }
+
+    private bool TryUpdateLookDirectionFromSource()
+    {
+        if (lastLookDirectionFrame == Time.frameCount)
+            return false;
+
+        Transform source = lookDirectionSource != null ? lookDirectionSource : viewOrigin;
+        if (source == null)
+            return false;
+
+        Vector2 dir = source.right;
+        if (dir.sqrMagnitude > 0.0001f)
+        {
+            lookDirection = dir.normalized;
+            return true;
+        }
+
+        return false;
+    }
+
+    private Vector2 GetOrigin()
+    {
+        return viewOrigin != null ? (Vector2)viewOrigin.position : (Vector2)transform.position;
+    }
+
     private void TriggerEndGame()
     {
         if (!triggerEndGameOnDetect || EndGameTriggered)
@@ -328,12 +556,15 @@ public class Vision : MonoBehaviour
         hitDistance = maxDistance;
 
         bool useMask = obstructionMask.value != 0;
-        int mask = useMask ? obstructionMask.value : Physics2D.AllLayers;
+        bool checkWallTag = !string.IsNullOrEmpty(wallTag);
+        if (!useMask && !checkWallTag)
+            return false;
+
+        int mask = (useMask && !checkWallTag) ? obstructionMask.value : Physics2D.AllLayers;
         int hitCount = Physics2D.RaycastNonAlloc(origin, direction, obstructionHits, maxDistance, mask);
         if (hitCount <= 0)
             return false;
 
-        bool requireTag = !string.IsNullOrEmpty(wallTag) && !useMask;
         float closest = maxDistance;
         bool found = false;
 
@@ -351,7 +582,9 @@ public class Vision : MonoBehaviour
                     continue;
             }
 
-            if (requireTag && !col.CompareTag(wallTag))
+            bool blocksByLayer = useMask && ((1 << col.gameObject.layer) & obstructionMask.value) != 0;
+            bool blocksByTag = checkWallTag && col.CompareTag(wallTag);
+            if (!blocksByLayer && !blocksByTag)
                 continue;
 
             if (hit.distance < closest)

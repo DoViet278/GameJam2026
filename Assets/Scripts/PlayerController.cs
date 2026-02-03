@@ -117,12 +117,12 @@ public class PlayerController : MonoBehaviour
         else if(GameController.instance.index == 1)
         {
             anim.runtimeAnimatorController = staff;
-            gameObject.tag = "Untagged";
+            gameObject.tag = "Staff";
         }
         else if(GameController.instance.index == 2)
         {
             anim.runtimeAnimatorController = security;
-            gameObject.tag = "Untagged";
+            gameObject.tag = "Security";
         }
     }
 

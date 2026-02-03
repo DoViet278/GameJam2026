@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wall
+  - Staff
+  - Security
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -7,15 +7,11 @@ public class AudioSettingsController : MonoBehaviour, IAudioSettingsObserver
     public Button musicButton;
     public Slider musicSlider;
     public Image musicIcon;
-    public Sprite musicOnIcon;
-    public Sprite musicOffIcon;
 
     [Header("SFX UI (Optional)")]
     public Button sfxButton;
     public Slider sfxSlider;
     public Image sfxIcon;
-    public Sprite sfxOnIcon;
-    public Sprite sfxOffIcon;
 
     private bool suppressCallbacks;
     private bool listenersWired;
@@ -103,11 +99,6 @@ public class AudioSettingsController : MonoBehaviour, IAudioSettingsObserver
             musicSlider.value = settings.musicVolume;
         if (sfxSlider != null)
             sfxSlider.value = settings.sfxVolume;
-
-        if (musicIcon != null)
-            musicIcon.sprite = settings.musicEnabled ? musicOnIcon : musicOffIcon;
-        if (sfxIcon != null)
-            sfxIcon.sprite = settings.sfxEnabled ? sfxOnIcon : sfxOffIcon;
 
         suppressCallbacks = false;
     }
