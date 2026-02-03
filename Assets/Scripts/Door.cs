@@ -4,30 +4,37 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    private enum DoorType
+    {
+        NoKey,
+        KeyRequired,
+        CardRequired    
+    }
+
+    [SerializeField] private DoorType type;
     private Animator animator;
-    private PlayerController playerController;
     private BoxCollider2D boxCollider;
     private bool isOpen = false;
+    private bool canOpen = false;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
-        playerController = FindObjectOfType<PlayerController>();
     }
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!isOpen && Input.GetKeyDown(KeyCode.E))
-        {
-            StartCoroutine(OpenDoor());
-        }
-    }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!isOpen && Input.GetKeyDown(KeyCode.E))
+        if (collision.gameObject.name == "Player" && type == DoorType.NoKey)
+        {
+            canOpen = true;
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.E) && canOpen)
         {
             StartCoroutine(OpenDoor());
         }
@@ -35,11 +42,14 @@ public class Door : MonoBehaviour
 
     private IEnumerator OpenDoor()
     {
+        canOpen = false;
         isOpen = true;
         animator.SetBool("open",true);
         boxCollider.enabled = false;
-        yield return new WaitForSeconds(1f);
+        yield return null;
         isOpen = false;
+
     }
 
 }
+

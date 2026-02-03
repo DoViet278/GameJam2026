@@ -91,15 +91,13 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (isDisguiseStaff && timeToMask.isMasking == false)
+            if (isDisguiseStaff)
             {
-                Debug.LogError("mask staff");
                 GameController.instance.index = 1;
                 timeToMask?.StartToMask();
             }
-            if (isDisguiseSecurity && timeToMask.isMasking == false)
+            if (isDisguiseSecurity)
             {
-                Debug.LogError("mask security");
                 GameController.instance.index = 2;
                 timeToMask?.StartToMask();
             }
@@ -119,12 +117,12 @@ public class PlayerController : MonoBehaviour
         else if(GameController.instance.index == 1)
         {
             anim.runtimeAnimatorController = staff;
-            gameObject.tag = "Untagged";
+            gameObject.tag = "Staff";
         }
         else if(GameController.instance.index == 2)
         {
             anim.runtimeAnimatorController = security;
-            gameObject.tag = "Untagged";
+            gameObject.tag = "Security";
         }
     }
 
@@ -168,7 +166,6 @@ public class PlayerController : MonoBehaviour
         isDisguiseStaff =
            Physics2D.Raycast(primaryWallCheck.position, Vector2.up, groundCheckDistance * 1.5f, whatIsClothesStaff);
 
-        // Debug.LogError(isDisguiseStaff);
         isDisguiseSecurity =
             Physics2D.Raycast(primaryWallCheck.position, Vector2.up, groundCheckDistance * 1.5f, whatIsClothesSecurity);
 
