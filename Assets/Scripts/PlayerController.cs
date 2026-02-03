@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
         isDisguiseStaff =
            Physics2D.Raycast(primaryWallCheck.position, Vector2.up, groundCheckDistance * 1.5f, whatIsClothesStaff);
 
-        Debug.LogError(isDisguiseStaff);
+        // Debug.LogError(isDisguiseStaff);
         isDisguiseSecurity =
             Physics2D.Raycast(primaryWallCheck.position, Vector2.up, groundCheckDistance * 1.5f, whatIsClothesSecurity);
 
