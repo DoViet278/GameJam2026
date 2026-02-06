@@ -26,8 +26,6 @@ public class PlayerMoveUDState : PlayerState
         {
             stateMachine.ChangeState(player.moveUpState);
         }
-
-
         player.SetVelocity(0, player.moveInput.y * player.moveSpeed);
     }
 }
