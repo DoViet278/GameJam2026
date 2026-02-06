@@ -4,12 +4,17 @@ using TMPro;
 
 public class QuestManager : MonoBehaviour
 {
+    public static QuestManager Instance;
     public List<Quest> quests = new List<Quest>();
 
     public TextMeshProUGUI questText;
 
     private int currentQuestIndex = 0;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         ShowCurrentQuest();

@@ -94,6 +94,7 @@ public class PlayerController : MonoBehaviour
             if (isDisguiseStaff)
             {
                 GameController.instance.index = 1;
+                QuestManager.Instance.CompleteCurrentQuest();
                 timeToMask?.StartToMask();
             }
             if (isDisguiseSecurity)
