@@ -7,9 +7,12 @@ public class GameController : MonoBehaviour
     public static GameController instance;
 
     public int index;
-    public bool isGameOver = false;
-    public bool isWin = false;
-    public bool hasCoin = false;
+    public bool isGameOver;
+    public bool isWin;
+    public bool hasCoin;
+    public bool hasKeySecurityRoom;
+    public bool hasCard;
+
     private void Awake()
     {
         if(instance == null)
@@ -24,6 +27,11 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        isGameOver = false;
+        isWin = false;
+        hasCoin = false;
+        hasKeySecurityRoom = false;
+        hasCard = false;
         index = 0;
     }
 }

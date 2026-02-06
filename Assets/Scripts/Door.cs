@@ -26,10 +26,17 @@ public class Door : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player" && type == DoorType.NoKey)
+        if (collision.gameObject.name == "Player")
         {
-            canOpen = true;
+            if(type == DoorType.NoKey) canOpen = true;
+            else if(type == DoorType.KeyRequired && GameController.instance.hasKeySecurityRoom) canOpen = true;
+            else if(type == DoorType.CardRequired && GameController.instance.hasCard) canOpen = true;
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        canOpen = false;
     }
 
     private void Update()

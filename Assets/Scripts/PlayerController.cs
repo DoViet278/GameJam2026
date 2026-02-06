@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
     private void HandleCollisionDetection()
     {
         researchShelf = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsShelf) ||
-           Physics2D.Raycast(groundCheck.position, Vector2.up, groundCheckDistance, whatIsShelf) ||
+           Physics2D.Raycast(groundCheck.position, Vector2.up, -0.25f, whatIsShelf) ||
            Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsShelf);
 
         isDisguiseStaff =

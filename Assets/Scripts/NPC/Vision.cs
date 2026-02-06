@@ -398,9 +398,12 @@ public class Vision : MonoBehaviour
         if (target == null)
             return false;
 
+        NpcRole npcRole = GetNpcRole();
+        if (npcRole == NpcRole.Boss)
+            return true;
+
         if (useNpcTagRules)
         {
-            NpcRole npcRole = GetNpcRole();
             if (npcRole != NpcRole.None)
             {
                 PlayerRole playerRole = GetPlayerRole(target);
@@ -457,7 +460,7 @@ public class Vision : MonoBehaviour
 
     private PlayerRole GetPlayerRole(Transform target)
     {
-        PlayerController player = target.GetComponentInParent<PlayerController>();
+        PlayerController player = target.GetComponent<PlayerController>();
         if (player == null)
             return PlayerRole.Unknown;
 
