@@ -12,6 +12,7 @@ public class Door : MonoBehaviour
     }
 
     [SerializeField] private DoorType type;
+    private GameObject lockDoor;
     private Animator animator;
     private BoxCollider2D boxCollider;
     private bool isOpen = false;
@@ -21,6 +22,10 @@ public class Door : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
+        if(type == DoorType.KeyRequired)
+        {
+            lockDoor = transform.GetChild(0).gameObject;
+        }
     }
 
 
@@ -29,7 +34,11 @@ public class Door : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             if(type == DoorType.NoKey) canOpen = true;
-            else if(type == DoorType.KeyRequired && GameController.instance.hasKeySecurityRoom) canOpen = true;
+            else if(type == DoorType.KeyRequired && GameController.instance.hasKeySecurityRoom)
+            {
+                canOpen = true;
+                lockDoor.SetActive(false);
+            }
             else if(type == DoorType.CardRequired && GameController.instance.hasCard) canOpen = true;
         }
     }
@@ -43,6 +52,7 @@ public class Door : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && canOpen)
         {
+            
             StartCoroutine(OpenDoor());
         }
     }
@@ -55,7 +65,6 @@ public class Door : MonoBehaviour
         boxCollider.enabled = false;
         yield return null;
         isOpen = false;
-
     }
 
 }

@@ -22,6 +22,11 @@ public class CollectKeyInShelf : MonoBehaviour
         }
     }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        isPlayerNearby=false;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && !searched && isPlayerNearby)
