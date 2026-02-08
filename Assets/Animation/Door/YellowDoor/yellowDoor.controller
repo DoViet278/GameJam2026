@@ -33,7 +33,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: "C\u1EEDa_V\xE0ng (2)_0"
+  m_Name: yellowDoor
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: open
