@@ -11,9 +11,14 @@ public class CollectKeyInShelf : MonoBehaviour
     public float riseDuration = 1f;
     public float flyDuration = 0.6f;
 
-    private bool searched = false;
-    private bool isPlayerNearby = false;    
+    private bool searched;
+    private bool isPlayerNearby;
 
+    private void Start()
+    {
+        searched = false;
+        isPlayerNearby = false;
+    }
     private void OnCollisionStay2D(Collision2D collision)
     {
         if(collision.gameObject.name == "Player")
@@ -63,6 +68,7 @@ public class CollectKeyInShelf : MonoBehaviour
         }
 
         GameController.instance.hasKeySecurityRoom = true;
+        QuestManager.Instance.CompleteCurrentQuest(); 
         Destroy(key);
         // inventory.AddKey();
     }

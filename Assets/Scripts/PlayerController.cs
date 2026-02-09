@@ -57,7 +57,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isSearching = false;
     public bool isClickDoor = false;
-
+    private bool isStaffMask = false;
+    private bool isSecurityMask = false;
     void Awake()
     {
         stateMachine = new PlayerStateMachine();
@@ -94,12 +95,15 @@ public class PlayerController : MonoBehaviour
             if (isDisguiseStaff)
             {
                 GameController.instance.index = 1;
-                QuestManager.Instance.CompleteCurrentQuest();
+                if(!isStaffMask) QuestManager.Instance.CompleteCurrentQuest();
+                isStaffMask = true;
                 timeToMask?.StartToMask();
             }
             if (isDisguiseSecurity)
             {
                 GameController.instance.index = 2;
+                if(!isSecurityMask) QuestManager.Instance.CompleteCurrentQuest();
+                isSecurityMask = true;  
                 timeToMask?.StartToMask();
             }
             if (researchShelf)

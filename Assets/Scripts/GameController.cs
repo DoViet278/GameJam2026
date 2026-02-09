@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public bool hasCoin;
     public bool hasKeySecurityRoom;
     public bool hasCard;
+    public bool safeOpended;
 
     private void Awake()
     {
