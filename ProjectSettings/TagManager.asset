@@ -8,6 +8,7 @@ TagManager:
   - Staff
   - Security
   - Boss
+  - Shelf
   layers:
   - Default
   - TransparentFX

@@ -89,13 +89,14 @@ public class PlayerController : MonoBehaviour
         input.Player.Movement.canceled += ctx => moveInput = Vector2.zero;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Shelf"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Shelf"))
         {
             researchShelf = true;
         }
     }
+
 
     private void Update()
     {
