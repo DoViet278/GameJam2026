@@ -5,8 +5,15 @@ using UnityEngine;
 public class Safe : MonoBehaviour
 {
     [SerializeField] private GameObject dialLockUI;
+
+    private Animator animator;
     private bool isPlayerNear = false;
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+
+    }
     private void OnCollisionStay2D(Collision2D collision)
     {
         isPlayerNear = true;
@@ -19,18 +26,17 @@ public class Safe : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerNear && Input.GetKeyDown(KeyCode.E))
+        if (isPlayerNear && Input.GetKeyDown(KeyCode.E) && !GameController.instance.safeOpended)
         {
             dialLockUI.SetActive(true);
         }
         if (GameController.instance.safeOpended)
         {
-            // Mo ket thanh cong
+            animator.SetBool("open", true);
         }
-    }
-
-    private void OpenTheSafe() 
-    {
-        
+        if (GameController.instance.hasCard)
+        {
+            animator.SetBool("get", true);
+        }
     }
 }

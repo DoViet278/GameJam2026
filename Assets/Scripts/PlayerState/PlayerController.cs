@@ -59,6 +59,9 @@ public class PlayerController : MonoBehaviour
     public bool isClickDoor = false;
     private bool isStaffMask = false;
     private bool isSecurityMask = false;
+
+    //Sound
+    private PlayerActionSfx playerActionSfx;
     void Awake()
     {
         stateMachine = new PlayerStateMachine();
@@ -72,6 +75,7 @@ public class PlayerController : MonoBehaviour
         searchState = new PlayerSearchState(this, stateMachine, "search");
         timeToMask = GetComponent<TimeToMask>();
         timeToSearch = GetComponent<TimeToSearch>();
+        playerActionSfx = GetComponent<PlayerActionSfx>();  
     }
 
     private void Start()
@@ -83,6 +87,14 @@ public class PlayerController : MonoBehaviour
         input.Player.Enable();
         input.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         input.Player.Movement.canceled += ctx => moveInput = Vector2.zero;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Shelf"))
+        {
+            researchShelf = true;
+        }
     }
 
     private void Update()
@@ -97,13 +109,15 @@ public class PlayerController : MonoBehaviour
                 GameController.instance.index = 1;
                 if(!isStaffMask) QuestManager.Instance.CompleteCurrentQuest();
                 isStaffMask = true;
+                playerActionSfx.PlayAction("Mask");
                 timeToMask?.StartToMask();
             }
             if (isDisguiseSecurity)
             {
                 GameController.instance.index = 2;
                 if(!isSecurityMask) QuestManager.Instance.CompleteCurrentQuest();
-                isSecurityMask = true;  
+                isSecurityMask = true;
+                playerActionSfx.PlayAction("Mask");
                 timeToMask?.StartToMask();
             }
             if (researchShelf)
@@ -164,10 +178,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCollisionDetection()
     {
-        researchShelf = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsShelf) ||
-           Physics2D.Raycast(groundCheck.position, Vector2.up, -0.25f, whatIsShelf) ||
-           Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDirLeft, wallCheckDistance, whatIsShelf);
-
         isDisguiseStaff =
            Physics2D.Raycast(primaryWallCheck.position, Vector2.up, groundCheckDistance * 1.5f, whatIsClothesStaff);
 

@@ -7,13 +7,20 @@ public class CollectKeyInShelf : MonoBehaviour
 {
     public GameObject keyPrefab;
     public Transform spawnPoint;
+    public Sprite keySprite;
+
     public float riseHeight = 1.2f;
     public float riseDuration = 1f;
     public float flyDuration = 0.6f;
 
     private bool searched;
     private bool isPlayerNearby;
+    private ListItemSelected listItemSelected;
 
+    private void Awake()
+    {
+        listItemSelected = FindObjectOfType<ListItemSelected>();
+    }
     private void Start()
     {
         searched = false;
@@ -70,6 +77,6 @@ public class CollectKeyInShelf : MonoBehaviour
         GameController.instance.hasKeySecurityRoom = true;
         QuestManager.Instance.CompleteCurrentQuest(); 
         Destroy(key);
-        // inventory.AddKey();
+        listItemSelected.AddItem("KeySecurityRoom", keySprite);
     }
 }

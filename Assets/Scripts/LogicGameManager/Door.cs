@@ -17,6 +17,7 @@ public class Door : MonoBehaviour
     private BoxCollider2D boxCollider;
     private bool isOpen = false;
     private bool canOpen = false;
+    private PlayerActionSfx doorSfx;
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class Door : MonoBehaviour
         {
             lockDoor = transform.GetChild(0).gameObject;
         }
+        doorSfx = GetComponent<PlayerActionSfx>();
     }
 
 
@@ -52,7 +54,6 @@ public class Door : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && canOpen)
         {
-            
             StartCoroutine(OpenDoor());
         }
     }
@@ -61,6 +62,7 @@ public class Door : MonoBehaviour
     {
         canOpen = false;
         isOpen = true;
+        doorSfx.PlayAction("Open");
         animator.SetBool("open",true);
         boxCollider.enabled = false;
         yield return null;
