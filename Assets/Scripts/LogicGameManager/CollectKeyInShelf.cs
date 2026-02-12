@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,11 +17,24 @@ public class CollectKeyInShelf : MonoBehaviour
     private bool searched;
     private bool isPlayerNearby;
     private ListItemSelected listItemSelected;
+    
+    //Lang nghe sk nhan phim E
 
     private void Awake()
     {
         listItemSelected = FindObjectOfType<ListItemSelected>();
     }
+
+    private void OnEnable()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnDisable()
+    {
+        throw new NotImplementedException();
+    }
+
     private void Start()
     {
         searched = false;

@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
+            //Nhan phim E
             if (isDisguiseStaff)
             {
                 GameController.instance.index = 1;
