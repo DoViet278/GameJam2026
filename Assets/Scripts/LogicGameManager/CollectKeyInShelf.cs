@@ -25,15 +25,6 @@ public class CollectKeyInShelf : MonoBehaviour
         listItemSelected = FindObjectOfType<ListItemSelected>();
     }
 
-    private void OnEnable()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void OnDisable()
-    {
-        throw new NotImplementedException();
-    }
 
     private void Start()
     {

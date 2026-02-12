@@ -5,12 +5,18 @@ using UnityEngine.EventSystems;
 public class UIDragCard : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public RectTransform scanArea;
+    public TextMeshProUGUI resultText;
+
+    [Header("Scan Settings")]
+    public float centerThreshold = 10f;  
+
     private RectTransform rectTransform;
     private Canvas canvas;
-    public RectTransform scanArea;
-    public TextMeshProUGUI messageText;
     private bool scanned = false;
-    void Start()
+    private Vector2 lastPos;
+
+    private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
@@ -18,32 +24,44 @@ public class UIDragCard : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (scanned) return;
+
+        lastPos = rectTransform.anchoredPosition;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition +=
-             eventData.delta / canvas.scaleFactor;
+        if (scanned) return;
 
-        if (!scanned && IsOverlapping())
+        rectTransform.anchoredPosition +=
+            eventData.delta / canvas.scaleFactor;
+
+        // Kiểm tra đang kéo từ phải qua trái
+        if (rectTransform.anchoredPosition.x < lastPos.x)
+        {
+            CheckScan();
+        }
+
+        lastPos = rectTransform.anchoredPosition;
+    }
+
+    void CheckScan()
+    {
+        Vector2 cardCenter = rectTransform.position;
+        Vector2 scanCenter = scanArea.position;
+
+        float distance = Vector2.Distance(cardCenter, scanCenter);
+
+        if (distance <= centerThreshold)
         {
             scanned = true;
-            messageText.text = "Đã quét thành công!";
+            resultText.text = "Đã quét thành công!";
+            Debug.Log("Scan success");
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        
-    }
 
-    bool IsOverlapping()
-    {
-        return RectTransformUtility
-            .RectangleContainsScreenPoint(
-                scanArea,
-                rectTransform.position,
-                canvas.worldCamera
-            );
     }
 }
