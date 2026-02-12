@@ -2884,6 +2884,7 @@ MonoBehaviour:
   - {fileID: 8367235684717033206}
   draggingPiece: -1
   canvas: {fileID: 1171889407089333496}
+  safeDialController: {fileID: 7495050317893050418}
 --- !u!1 &5362972783487680838
 GameObject:
   m_ObjectHideFlags: 0
