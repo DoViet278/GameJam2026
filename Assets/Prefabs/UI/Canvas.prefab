@@ -2498,7 +2498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2381295298765180818
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2547,6 +2547,7 @@ MonoBehaviour:
   - {fileID: 8367235684717033206}
   draggingPiece: -1
   canvas: {fileID: 1171889407089333496}
+  safeDialController: {fileID: 7495050317893050418}
 --- !u!1 &5362972783487680838
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static CONST;
 
 public class CollectKeyInShelf : MonoBehaviour
 {
@@ -27,12 +28,12 @@ public class CollectKeyInShelf : MonoBehaviour
 
     private void OnEnable()
     {
-        throw new NotImplementedException();
+        ObserverManager.Register(PLAYER_PRESS_E, (Action)OnPlayerPressE);
     }
-
+    
     private void OnDisable()
     {
-        throw new NotImplementedException();
+        ObserverManager.Unregister(PLAYER_PRESS_E, (Action)OnPlayerPressE);
     }
 
     private void Start()
@@ -53,9 +54,8 @@ public class CollectKeyInShelf : MonoBehaviour
         isPlayerNearby=false;
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && !searched && isPlayerNearby)
+    private void OnPlayerPressE(){
+        if (!searched && isPlayerNearby)
         {
             searched = true;
             StartCoroutine(SpawnAndFlyKey());

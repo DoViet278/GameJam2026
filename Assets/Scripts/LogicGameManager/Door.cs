@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static CONST;
 
 public class Door : MonoBehaviour
 {
@@ -18,6 +20,16 @@ public class Door : MonoBehaviour
     private bool isOpen = false;
     private bool canOpen = false;
     private PlayerActionSfx doorSfx;
+    
+    private void OnEnable()
+    {
+        ObserverManager.Register(PLAYER_PRESS_E, (Action)OnPlayerPressE);
+    }
+    
+    private void OnDisable()
+    {
+        ObserverManager.Unregister(PLAYER_PRESS_E, (Action)OnPlayerPressE);
+    }
 
     private void Awake()
     {
@@ -50,9 +62,9 @@ public class Door : MonoBehaviour
         canOpen = false;
     }
 
-    private void Update()
+    private void OnPlayerPressE()
     {
-        if(Input.GetKeyDown(KeyCode.E) && canOpen)
+        if(canOpen)
         {
             StartCoroutine(OpenDoor());
         }

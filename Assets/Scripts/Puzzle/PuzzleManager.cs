@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PuzzleManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PuzzleManager : MonoBehaviour
     public int draggingPiece = -1;
     public Canvas canvas;
     
+    public SafeDialController safeDialController;
     private void Awake()
     {
         instance = this;
@@ -21,6 +23,11 @@ public class PuzzleManager : MonoBehaviour
     {
         InitPiece();
         Shuffle();
+    }
+
+    private void OnEnable()
+    {
+        PlayerController.instance.DisableInput();
     }
 
     private void InitPiece()
@@ -90,11 +97,37 @@ public class PuzzleManager : MonoBehaviour
         }
 
         WinPuzzle();
+        
+    }
+
+    private void ShowNumber()
+    {
+        List<int> nums = new List<int>();
+        int a = Random.Range(0, 101);
+        nums.Add(a);
+        int b;
+        do { b = Random.Range(0, 101); }
+        while (b == a);
+        nums.Add(b);
+        int c;
+        do { c = Random.Range(0, 101); }
+        while (c == a || c == b);
+        nums.Add(c);
+        
+        safeDialController.correctCode = nums;
+
+        foreach (var num in nums)
+        {
+            Debug.Log(num.ToString());
+        }
     }
 
     private void WinPuzzle()
     {
+        this.gameObject.SetActive(false);
+        PlayerController.instance.EnableInput();
         Debug.Log("Puzzle win!");
+        ShowNumber();
     }
 
     private void Shuffle()

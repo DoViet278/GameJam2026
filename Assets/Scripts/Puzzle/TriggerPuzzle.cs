@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static CONST;
 
 public class TriggerPuzzle : MonoBehaviour
 {
@@ -11,6 +12,16 @@ public class TriggerPuzzle : MonoBehaviour
     
     private bool played = false;
     private bool isPlayerNearby;
+
+    private void OnEnable()
+    {
+        ObserverManager.Register(PLAYER_PRESS_E, (Action)OnPlayerPressE);
+    }
+    
+    private void OnDisable()
+    {
+        ObserverManager.Unregister(PLAYER_PRESS_E, (Action)OnPlayerPressE);
+    }
 
     private void OnTriggerStay2D(Collider2D other)
     {
@@ -28,9 +39,8 @@ public class TriggerPuzzle : MonoBehaviour
     }
 
     
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && !played && isPlayerNearby)
+    private void OnPlayerPressE(){
+        if (!played && isPlayerNearby)
         {
             played = true;
             puzzle.SetActive(true);

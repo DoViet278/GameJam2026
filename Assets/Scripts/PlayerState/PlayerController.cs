@@ -1,5 +1,6 @@
 using System;
 using Unity.VisualScripting;
+using static CONST;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -62,8 +63,12 @@ public class PlayerController : MonoBehaviour
 
     //Sound
     private PlayerActionSfx playerActionSfx;
+    
+    public static PlayerController instance;
+    
     void Awake()
     {
+        instance = this;
         stateMachine = new PlayerStateMachine();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -113,6 +118,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             //Nhan phim E
+            ObserverManager.InvokeEvent(PLAYER_PRESS_E);
+            
             if (isDisguiseStaff)
             {
                 GameController.instance.index = 1;
@@ -152,6 +159,15 @@ public class PlayerController : MonoBehaviour
             anim.runtimeAnimatorController = security;
             gameObject.tag = "Security";
         }
+    }
+
+    public void EnableInput()
+    {
+        input.Player.Enable();
+    }
+    public void DisableInput()
+    {
+        input.Player.Disable();
     }
 
     void OnDisable()

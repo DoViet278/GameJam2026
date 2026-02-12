@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static CONST;
 
 public class CollectItemInSafe : MonoBehaviour
 {
@@ -15,6 +17,16 @@ public class CollectItemInSafe : MonoBehaviour
     public float flyDuration = .25f;
     private bool allowCollect;
     private ListItemSelected listItemSelected;
+    
+    private void OnEnable()
+    {
+        ObserverManager.Register(PLAYER_PRESS_E, (Action)OnPlayerPressE);
+    }
+    
+    private void OnDisable()
+    {
+        ObserverManager.Unregister(PLAYER_PRESS_E, (Action)OnPlayerPressE);
+    }
 
     private void Awake()
     {
@@ -35,9 +47,8 @@ public class CollectItemInSafe : MonoBehaviour
         allowCollect = false;
     }   
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && allowCollect)
+    private void OnPlayerPressE(){
+        if (allowCollect)
         {
             allowCollect = false;
             StartCoroutine(SpawnAndFlyItems());
