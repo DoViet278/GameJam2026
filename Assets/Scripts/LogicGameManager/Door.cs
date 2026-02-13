@@ -17,7 +17,6 @@ public class Door : MonoBehaviour
     private GameObject lockDoor;
     private Animator animator;
     private BoxCollider2D boxCollider;
-    private bool isOpen = false;
     private bool canOpen = false;
     private PlayerActionSfx doorSfx;
     
@@ -73,12 +72,10 @@ public class Door : MonoBehaviour
     private IEnumerator OpenDoor()
     {
         canOpen = false;
-        isOpen = true;
         doorSfx.PlayAction("Open");
         animator.SetBool("open",true);
         boxCollider.enabled = false;
         yield return null;
-        isOpen = false;
     }
 
 }

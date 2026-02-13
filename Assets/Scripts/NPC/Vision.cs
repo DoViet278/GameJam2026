@@ -158,7 +158,6 @@ public class Vision : MonoBehaviour
             if (CanDetect(target))
             {
                 DidSeePlayerThisFrame = true;
-                Debug.Log("End Game");
                 TriggerEndGame();
                 return;
             }

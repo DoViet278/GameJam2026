@@ -8,14 +8,14 @@ public class ScanCardUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if(GameController.instance.hasCard)
-        {
-            imgCard.SetActive(true);
-        }
-        else
-        {
-            imgCard.SetActive(false);
-        }
+        //if(GameController.instance.hasCard)
+        //{
+        //    imgCard.SetActive(true);
+        //}
+        //else
+        //{
+        //    imgCard.SetActive(false);
+        //}
     }
     
 }

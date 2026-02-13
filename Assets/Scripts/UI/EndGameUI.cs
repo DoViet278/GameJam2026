@@ -110,7 +110,6 @@ public class EndGameUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("Show Lose Popup");
             if (losePopup != null) losePopup.SetActive(true);
         }
 
