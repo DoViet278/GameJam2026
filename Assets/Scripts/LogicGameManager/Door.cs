@@ -19,6 +19,7 @@ public class Door : MonoBehaviour
     private BoxCollider2D boxCollider;
     private bool canOpen = false;
     private PlayerActionSfx doorSfx;
+    private bool scanCardInDoor;
     
     private void OnEnable()
     {
@@ -52,13 +53,14 @@ public class Door : MonoBehaviour
                 canOpen = true;
                 lockDoor.SetActive(false);
             }
-            else if(type == DoorType.CardRequired && GameController.instance.hasCard) canOpen = true;
+            else if(type == DoorType.CardRequired) scanCardInDoor = true;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         canOpen = false;
+        scanCardInDoor = false;
     }
 
     private void OnPlayerPressE()
@@ -67,6 +69,11 @@ public class Door : MonoBehaviour
         {
             StartCoroutine(OpenDoor());
         }
+        if(scanCardInDoor)
+        {
+            UIConntroller.instance.ShowScanCardUI();
+        }
+
     }
 
     private IEnumerator OpenDoor()

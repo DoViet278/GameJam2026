@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class SafeDialController : MonoBehaviour
 {
-    [SerializeField] private GameObject dialLockUI;
     [Header("Dial")]
     public RectTransform dialRect;
     public TextMeshProUGUI numberText;
@@ -83,7 +82,7 @@ public class SafeDialController : MonoBehaviour
             resultText.color = Color.green;
             inputCode.Clear();
             GameController.instance.safeOpended = true;
-            dialLockUI.SetActive(false);
+            UIConntroller.instance.HideDialLockUI();
         }
         else
         {
@@ -94,7 +93,7 @@ public class SafeDialController : MonoBehaviour
 
     public void OnClickClose()
     {
-        dialLockUI.SetActive(false);
+        UIConntroller.instance.HideDialLockUI();
         inputCode.Clear();
     }
 }

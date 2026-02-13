@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     public event Action onFlipped;
 
     [SerializeField] private RuntimeAnimatorController player;
@@ -60,11 +61,11 @@ public class PlayerController : MonoBehaviour
     public bool isClickDoor = false;
     private bool isStaffMask = false;
     private bool isSecurityMask = false;
+    public bool isOpenSafe = false;
 
     //Sound
     private PlayerActionSfx playerActionSfx;
     
-    public static PlayerController instance;
     
     void Awake()
     {
@@ -177,6 +178,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetVelocity(float xVelocity, float yVelocity)
     {
+        if(isOpenSafe) return;
         rb.velocity = new Vector2(xVelocity, yVelocity);
         HandleFlipLeft(xVelocity);
     }

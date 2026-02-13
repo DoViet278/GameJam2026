@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Safe : MonoBehaviour
 {
-    [SerializeField] private GameObject dialLockUI;
-
     private Animator animator;
     private bool isPlayerNear = false;
 
@@ -28,7 +26,7 @@ public class Safe : MonoBehaviour
     {
         if (isPlayerNear && Input.GetKeyDown(KeyCode.E) && !GameController.instance.safeOpended)
         {
-            dialLockUI.SetActive(true);
+            UIConntroller.instance.ShowDialLockUI();    
         }
         if (GameController.instance.safeOpended)
         {

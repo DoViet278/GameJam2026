@@ -15,11 +15,20 @@ public class UIDragCard : MonoBehaviour,
     private Canvas canvas;
     private bool scanned = false;
     private Vector2 lastPos;
-
+    private Vector2 startPos;
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        startPos = rectTransform.anchoredPosition;
+
+    }
+
+    private void OnEnable()
+    {
+        rectTransform.anchoredPosition = startPos;
+        scanned = false;
+        resultText.text = "Hãy quét thẻ để mở";
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -55,8 +64,8 @@ public class UIDragCard : MonoBehaviour,
         if (distance <= centerThreshold)
         {
             scanned = true;
-            resultText.text = "Đã quét thành công!";
-            Debug.Log("Scan success");
+            resultText.text = "Vui lòng nhập mật khẩu!";
+            GameController.instance.scannedCard = true;
         }
     }
 

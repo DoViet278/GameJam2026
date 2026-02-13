@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     public bool hasKeySecurityRoom;
     public bool hasCard;
     public bool safeOpended;
-
+    public bool scannedCard;    
     private void Awake()
     {
         if(instance == null)
@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
         hasCoin = false;
         hasKeySecurityRoom = false;
         hasCard = false;
+        scannedCard = false;    
         index = 0;
     }
 }
