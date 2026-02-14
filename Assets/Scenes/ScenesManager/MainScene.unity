@@ -1272,10 +1272,18 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 448900139541216406, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3755457107104347692, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
       propertyPath: puzzle
       value: 
       objectReference: {fileID: 808633508}
+    - target: {fileID: 3907437269866637400, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.73
+      objectReference: {fileID: 0}
     - target: {fileID: 5007781959624125941, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
       propertyPath: m_SortingOrder
       value: 10
@@ -1316,6 +1324,10 @@ PrefabInstance:
       propertyPath: dialLockUI
       value: 
       objectReference: {fileID: 1804524392}
+    - target: {fileID: 6712271622757256908, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6798433898314197217, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
       propertyPath: m_TileAssetArray.Array.data[0].m_Data
       value: 
@@ -1564,6 +1576,10 @@ PrefabInstance:
       propertyPath: m_TileSpriteArray.Array.data[42].m_Data
       value: 
       objectReference: {fileID: 1593933821}
+    - target: {fileID: 7562954034779814591, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8822260359115128409, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.292
@@ -4242,7 +4258,7 @@ Transform:
   m_GameObject: {fileID: 646163990}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.85, y: 5.55, z: 0.04423361}
+  m_LocalPosition: {x: -0.85, y: 4.69, z: 0.04423361}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4698,9 +4714,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4060102806343271128, guid: d600b6813a3597d40853785fa618ab54, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+    - target: {fileID: 2201581577785230935, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4543386630241096979, guid: d600b6813a3597d40853785fa618ab54, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4709,6 +4725,18 @@ PrefabInstance:
     - target: {fileID: 4543386630241096979, guid: d600b6813a3597d40853785fa618ab54, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5038266530933627173, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261770677210181272, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: m_text
+      value: "M\u1EADt kh\u1EA9u k\xE9t s\u1EAFt"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243565452052489055, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7579,7 +7607,7 @@ GameObject:
   - component: {fileID: 1606820326}
   - component: {fileID: 1606820325}
   m_Layer: 0
-  m_Name: sign board 1 (2)
+  m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7742,7 +7770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 947277614896474782, guid: b461744fe82c65b478bc2f9a557899be, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.8
+      value: -5.04
       objectReference: {fileID: 0}
     - target: {fileID: 1026441368152696270, guid: b461744fe82c65b478bc2f9a557899be, type: 3}
       propertyPath: endGameUI
@@ -10707,6 +10735,7 @@ MonoBehaviour:
   hasCard: 0
   safeOpended: 0
   scannedCard: 0
+  openedDoor: 0
 --- !u!213 &2129610034
 Sprite:
   m_ObjectHideFlags: 0
@@ -10984,7 +11013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3230116016583980889, guid: b6a822f4ec02ebe46b5f5334a0009242, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.7
+      value: -7.06
       objectReference: {fileID: 0}
     - target: {fileID: 3230116016583980889, guid: b6a822f4ec02ebe46b5f5334a0009242, type: 3}
       propertyPath: m_LocalPosition.z

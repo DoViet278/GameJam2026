@@ -11,9 +11,12 @@ public class GameController : MonoBehaviour
     public bool isWin;
     public bool hasCoin;
     public bool hasKeySecurityRoom;
+    //Open CardDoor
     public bool hasCard;
     public bool safeOpended;
-    public bool scannedCard;    
+    public bool scannedCard;   
+    public bool acceptedPassword;
+
     private void Awake()
     {
         if(instance == null)
@@ -33,7 +36,8 @@ public class GameController : MonoBehaviour
         hasCoin = false;
         hasKeySecurityRoom = false;
         hasCard = false;
-        scannedCard = false;    
+        scannedCard = false;
+        acceptedPassword = false;
         index = 0;
     }
 }

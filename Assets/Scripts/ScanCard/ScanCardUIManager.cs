@@ -14,7 +14,7 @@ public class ScanCardUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI resultText;
     [SerializeField] private Button checkBtn;
     private bool checkPassword;
-    private string correctPassword = "1234";
+    private string correctPassword = "GameJam2026";
 
     private void Start()
     {
@@ -26,14 +26,14 @@ public class ScanCardUIManager : MonoBehaviour
     private void OnEnable()
     {
         inputPassword.SetActive(false);
-        //if (GameController.instance.hasCard)
-        //{
-        //    imgCard.SetActive(true);
-        //}
-        //else
-        //{
-        //    imgCard.SetActive(false);
-        //}
+        if (GameController.instance.hasCard)
+        {
+            imgCard.SetActive(true);
+        }
+        else
+        {
+            imgCard.SetActive(false);
+        }
     }
 
     private void Update()
@@ -56,15 +56,12 @@ public class ScanCardUIManager : MonoBehaviour
         {
             resultText.text = "Mật khẩu đúng!";
             resultText.color = Color.green;
-
-            Debug.Log("Password Correct");
+            GameController.instance.acceptedPassword = true;
         }
         else
         {
             resultText.text = "Sai mật khẩu!";
             resultText.color = Color.red;
-
-            Debug.Log("Password Wrong");
         }
     }
 

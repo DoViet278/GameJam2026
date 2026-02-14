@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager instance;
+    [SerializeField] private TextMeshProUGUI txtNoti;
+    [SerializeField] private TextMeshProUGUI txtWin;
+    [SerializeField] private Button btnExit;
     public float[] puzzlePosition;
     public PuzzlePiece[] PuzzlePieces;
     
@@ -27,7 +32,10 @@ public class PuzzleManager : MonoBehaviour
 
     private void OnEnable()
     {
+        btnExit.onClick.AddListener(ExitPuzzle);
         PlayerController.instance.DisableInput();
+        txtNoti.text = "Sắp xếp lại!";
+        txtWin.text = "";   
     }
 
     private void InitPiece()
@@ -43,9 +51,7 @@ public class PuzzleManager : MonoBehaviour
         for (int i = 0; i < PuzzlePieces.Length; i++)
         {
             PuzzlePieces[i].pieceIndex = i;
-            //for test
             PuzzlePieces[i].currentPieceIndex = i;
-            //
             puzzlePosition[i] = PuzzlePieces[i].transform.localPosition.y;
         }
     }
@@ -113,7 +119,8 @@ public class PuzzleManager : MonoBehaviour
         do { c = Random.Range(0, 101); }
         while (c == a || c == b);
         nums.Add(c);
-        
+        txtNoti.text = "Mật khẩu két sắt";
+        txtWin.text = $"{a} - {b} - {c}";
         safeDialController.correctCode = nums;
 
         foreach (var num in nums)
@@ -124,7 +131,6 @@ public class PuzzleManager : MonoBehaviour
 
     private void WinPuzzle()
     {
-        this.gameObject.SetActive(false);
         PlayerController.instance.EnableInput();
         Debug.Log("Puzzle win!");
         ShowNumber();
@@ -143,5 +149,10 @@ public class PuzzleManager : MonoBehaviour
             PuzzlePieces[j].currentPieceIndex = i;
             (PuzzlePieces[i], PuzzlePieces[j]) = (PuzzlePieces[j], PuzzlePieces[i]);
         }
+    }
+
+    public void ExitPuzzle() 
+    {
+        this.gameObject.SetActive(false);
     }
 }

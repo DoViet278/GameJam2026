@@ -47,13 +47,20 @@ public class Door : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
-            if(type == DoorType.NoKey) canOpen = true;
-            else if(type == DoorType.KeyRequired && GameController.instance.hasKeySecurityRoom)
+            if (type == DoorType.NoKey) canOpen = true;
+            else if (type == DoorType.KeyRequired && GameController.instance.hasKeySecurityRoom)
             {
                 canOpen = true;
                 lockDoor.SetActive(false);
             }
-            else if(type == DoorType.CardRequired) scanCardInDoor = true;
+            else if (type == DoorType.CardRequired)
+            {
+                scanCardInDoor = true;
+                if (GameController.instance.acceptedPassword)
+                {
+                    canOpen = true;
+                }
+            }
         }
     }
 
