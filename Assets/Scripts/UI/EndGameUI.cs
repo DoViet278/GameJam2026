@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class EndGameUI : MonoBehaviour
 {
@@ -13,15 +14,21 @@ public class EndGameUI : MonoBehaviour
     [SerializeField] private GameObject winPopup;
     [SerializeField] private GameObject losePopup;
 
+    [Header("Outtro")]
+    [SerializeField] private GameObject outtroVideo;
+
     private Coroutine running;
     private float cachedTimeScale = 1f;
     private bool timeScaleOverridden;
+    private VideoPlayer outro;
 
     private void Awake()
     {
         EnsureFadeGroup();
         SetPopupActive(false, false);
         SetFade(0f, false);
+        outro = outtroVideo.GetComponent<VideoPlayer>();
+        outro.loopPointReached += OnVideoEnd;  
     }
 
     public void ShowWin()
@@ -32,6 +39,12 @@ public class EndGameUI : MonoBehaviour
     public void ShowLose()
     {
         Show(false);
+        //show video
+        if (outtroVideo != null)
+        {
+            outtroVideo.SetActive(true);
+            outro.Play();
+        }
     }
 
     private void Update()
@@ -178,5 +191,10 @@ public class EndGameUI : MonoBehaviour
         fadeGroup = fadePanel.GetComponent<CanvasGroup>();
         if (fadeGroup == null)
             fadeGroup = fadePanel.AddComponent<CanvasGroup>();
+    }
+
+    private void OnVideoEnd(VideoPlayer vp)
+    {
+        outtroVideo.SetActive(false);
     }
 }
