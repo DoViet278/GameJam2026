@@ -29,6 +29,7 @@ public class TriggerPuzzle : MonoBehaviour
         {
             isPlayerNearby =true;
             outline.SetActive(true);
+            QuestManager.Instance.CompleteCurrentQuest();
         }
     }
 

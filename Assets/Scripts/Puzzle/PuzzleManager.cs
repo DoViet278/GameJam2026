@@ -125,7 +125,7 @@ public class PuzzleManager : MonoBehaviour
         passwordInfo.SetActive(true);
         txtWin.text = $"{a} - {b} - {c}";
         safeDialController.correctCode = nums;
-
+        QuestManager.Instance.CompleteCurrentQuest();
         foreach (var num in nums)
         {
             Debug.Log(num.ToString());
@@ -157,5 +157,6 @@ public class PuzzleManager : MonoBehaviour
     public void ExitPuzzle() 
     {
         this.gameObject.SetActive(false);
+        QuestManager.Instance.CompleteCurrentQuest();
     }
 }

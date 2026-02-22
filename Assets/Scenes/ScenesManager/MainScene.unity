@@ -1637,6 +1637,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 7072018454358876871, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
+      propertyPath: m_Size.y
+      value: 1.7699318
+      objectReference: {fileID: 0}
+    - target: {fileID: 7072018454358876871, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.1994381
+      objectReference: {fileID: 0}
     - target: {fileID: 7562954034779814591, guid: b666e939709ccb84c9d0a99a3a9c0066, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -5254,7 +5262,7 @@ MonoBehaviour:
     isCompleted: 0
   - questName: "T\xECm t\u1EE7 \u0111\u1ED3 c\u1EE7a b\u1EA3o v\u1EC7"
     isCompleted: 0
-  - questName: "T\xECm \u1EA3nh gh\xE9p"
+  - questName: "T\xECm b\u1EE9c tranh ch\u1EE9a m\u1EADt m\xE3"
     isCompleted: 0
   - questName: "Ghi nh\u1EDB m\u1EADt kh\u1EA9u k\xE9t s\u1EAFt"
     isCompleted: 0
@@ -11219,11 +11227,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3230116016583980889, guid: b6a822f4ec02ebe46b5f5334a0009242, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.3
+      value: -0.02
       objectReference: {fileID: 0}
     - target: {fileID: 3230116016583980889, guid: b6a822f4ec02ebe46b5f5334a0009242, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.06
+      value: -7.79
       objectReference: {fileID: 0}
     - target: {fileID: 3230116016583980889, guid: b6a822f4ec02ebe46b5f5334a0009242, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11261,6 +11269,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8686205891935738870, guid: b6a822f4ec02ebe46b5f5334a0009242, type: 3}
+      propertyPath: actionClips.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 36cdd9ad467636a4a80d928d06b00ba2, type: 3}
     - target: {fileID: 8686205891935738870, guid: b6a822f4ec02ebe46b5f5334a0009242, type: 3}
       propertyPath: actionClips.Array.data[2].actionId
       value: Mask

@@ -31,6 +31,7 @@ public class Safe : MonoBehaviour
         if (GameController.instance.safeOpended)
         {
             animator.SetBool("open", true);
+            QuestManager.Instance.CompleteCurrentQuest();
         }
         if (GameController.instance.hasCard)
         {

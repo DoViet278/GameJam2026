@@ -1,14 +1,43 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Searcher;
 using UnityEngine;
+using static CONST;
 
 public class CollectCoin : MonoBehaviour
 {
-    private void OnCollisionStay2D(Collision2D collision)
+    private bool isPlayerNearby;
+    private void OnEnable()
     {
-        if(collision.gameObject.name == "Player" && Input.GetKeyDown(KeyCode.E))
+        ObserverManager.Register(PLAYER_PRESS_E, (Action)OnPlayerPressE);
+    }
+
+    private void OnDisable()
+    {
+        ObserverManager.Unregister(PLAYER_PRESS_E, (Action)OnPlayerPressE);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.name == "Player")
         {
-            GameController.instance.hasCoin = true; 
+            isPlayerNearby = true;   
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(collision.gameObject.name == "Player")
+        {
+            isPlayerNearby = false;
+        }
+    }
+
+    private void OnPlayerPressE()
+    {
+        if (isPlayerNearby)
+        {
+            GameController.instance.hasCoin = true;
             Destroy(gameObject);
         }
     }
