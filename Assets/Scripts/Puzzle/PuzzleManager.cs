@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager instance;
+    [SerializeField] private GameObject passwordInfo;
     [SerializeField] private TextMeshProUGUI txtNoti;
     [SerializeField] private TextMeshProUGUI txtWin;
     [SerializeField] private Button btnExit;
@@ -34,7 +35,8 @@ public class PuzzleManager : MonoBehaviour
     {
         btnExit.onClick.AddListener(ExitPuzzle);
         PlayerController.instance.DisableInput();
-        txtNoti.text = "Sắp xếp lại!";
+        passwordInfo.SetActive(false);
+        txtNoti.text = "Try to solve the puzzle!";
         txtWin.text = "";   
     }
 
@@ -119,7 +121,8 @@ public class PuzzleManager : MonoBehaviour
         do { c = Random.Range(0, 101); }
         while (c == a || c == b);
         nums.Add(c);
-        txtNoti.text = "Mật khẩu két sắt";
+        txtNoti.text = "Amazing good job!";
+        passwordInfo.SetActive(true);
         txtWin.text = $"{a} - {b} - {c}";
         safeDialController.correctCode = nums;
 

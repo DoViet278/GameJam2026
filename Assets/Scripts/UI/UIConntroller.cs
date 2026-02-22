@@ -11,6 +11,7 @@ public class UIConntroller : MonoBehaviour
     [SerializeField] private string mainScene = "MainScene";
     [SerializeField] private GameObject uiDialLock;
     [SerializeField] private GameObject uiScanCard;
+    [SerializeField] private GameObject outroVideo;
 
     private const string TutorialSeenKey = "Game.TutorialSeen";
 
@@ -28,9 +29,9 @@ public class UIConntroller : MonoBehaviour
     }
 
     public void LoadHome()
-    {
+    {  
+        outroVideo.SetActive(false);
         GameController.instance.isGameOver = false;
-        Time.timeScale = 1f;    
         SceneManager.LoadScene(homeScene);
     }
 
@@ -41,8 +42,8 @@ public class UIConntroller : MonoBehaviour
 
     public void LoadMain()
     {
+        outroVideo.SetActive(false);
         GameController.instance.isGameOver = false;
-        Time.timeScale = 1f;
         SceneManager.LoadScene(mainScene);
     }
 

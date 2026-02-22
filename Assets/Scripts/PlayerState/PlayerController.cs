@@ -179,6 +179,7 @@ public class PlayerController : MonoBehaviour
     public void SetVelocity(float xVelocity, float yVelocity)
     {
         if(isOpenSafe) return;
+        if(GameController.instance.isGameOver) return;
         rb.velocity = new Vector2(xVelocity, yVelocity);
         HandleFlipLeft(xVelocity);
     }
