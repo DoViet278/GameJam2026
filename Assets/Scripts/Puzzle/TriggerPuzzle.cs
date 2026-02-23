@@ -29,7 +29,7 @@ public class TriggerPuzzle : MonoBehaviour
         {
             isPlayerNearby =true;
             outline.SetActive(true);
-            QuestManager.Instance.CompleteCurrentQuest();
+           
         }
     }
 
@@ -45,6 +45,7 @@ public class TriggerPuzzle : MonoBehaviour
         {
             played = true;
             puzzle.SetActive(true);
+            QuestManager.Instance.CompleteCurrentQuest();
         }
     }
 }

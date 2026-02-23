@@ -9080,7 +9080,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1744273410
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11272,7 +11272,7 @@ PrefabInstance:
     - target: {fileID: 8686205891935738870, guid: b6a822f4ec02ebe46b5f5334a0009242, type: 3}
       propertyPath: actionClips.Array.data[2].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 36cdd9ad467636a4a80d928d06b00ba2, type: 3}
+      objectReference: {fileID: 8300000, guid: 7d343dce2ef823244a9d7ba0b46b9b38, type: 3}
     - target: {fileID: 8686205891935738870, guid: b6a822f4ec02ebe46b5f5334a0009242, type: 3}
       propertyPath: actionClips.Array.data[2].actionId
       value: Mask
@@ -11399,7 +11399,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &5796817073851984509
 GameObject:
   m_ObjectHideFlags: 0

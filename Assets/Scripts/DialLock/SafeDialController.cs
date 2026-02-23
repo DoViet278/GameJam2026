@@ -82,6 +82,7 @@ public class SafeDialController : MonoBehaviour
             resultText.color = Color.green;
             inputCode.Clear();
             GameController.instance.safeOpended = true;
+            QuestManager.Instance.CompleteCurrentQuest();
             UIConntroller.instance.HideDialLockUI();
         }
         else
