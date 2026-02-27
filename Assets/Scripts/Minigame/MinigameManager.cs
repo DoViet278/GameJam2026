@@ -17,6 +17,8 @@ public class MinigameManager : MonoBehaviour
     public GameObject puzzle;
     public GameObject passwordInfo;
     public TextMeshProUGUI txtNoti;
+
+    public List<Piece> pickPieces = new List<Piece>();
     private void Awake()
     {
         instance = this;
@@ -52,22 +54,56 @@ public class MinigameManager : MonoBehaviour
         Shuffle();
     }
 
-    public void ChangeTile(Piece movePiece)
+    public void PickPiece(Piece pickPiece)
     {
-        int index = Array.IndexOf(pieces, movePiece);
-
-        Vector2Int piecePos = GetPosition(index);
-        int targetIndex = CheckBlankTile(piecePos.x, piecePos.y);
-        if (targetIndex != -1)
+        if (pickPieces.Contains(pickPiece))
         {
-            StartCoroutine(SwapPieces(index, targetIndex));
+            pickPieces.Remove(pickPiece);
         }
+        else
+        {
+            pickPieces.Add(pickPiece);
+        }
+
+        if (pickPieces.Count == 2)
+        {
+            ChangeTile(pickPieces[0], pickPieces[1]);
+            pickPieces.Clear();
+        }
+    }
+    
+    
+
+    public void ChangeTile(Piece movePiece, Piece targetPiece)
+    {
+        int index1 = Array.IndexOf(pieces, movePiece);
+        int index2 = Array.IndexOf(pieces, targetPiece);
+        
+        Vector2Int pos1 = GetPosition(index1);
+        Vector2Int pos2 = GetPosition(index2);
+        bool ok = CheckValid(pos1, pos2);
+        if (ok)
+        {
+            StartCoroutine(SwapPieces(index1, index2));
+        }
+    }
+    
+    private bool CheckValid(Vector2Int movePiece, Vector2Int targetPiece)
+    {
+        if(movePiece.x == targetPiece.x && movePiece.y == targetPiece.y + 1 || 
+           movePiece.x == targetPiece.x && movePiece.y == targetPiece.y - 1 ||
+           movePiece.x == targetPiece.x + 1 && movePiece.y == targetPiece.y ||
+           movePiece.x == targetPiece.x - 1 && movePiece.y == targetPiece.y 
+           )
+            return true;
+        return false;
     }
 
     IEnumerator SwapPieces(int index, int targetIndex)
     {
         Clickable = false;
         Vector2 start = pieces[index].rect.localPosition;
+        Vector2 start2 = pieces[targetIndex].rect.localPosition;
         float duration = 0.1f;
         float elapsedTime = 0;
 
@@ -77,7 +113,7 @@ public class MinigameManager : MonoBehaviour
             float t = elapsedTime / duration;
             
             pieces[index].rect.localPosition = Vector3.Lerp(start, positions[targetIndex], t);
-            
+            pieces[targetIndex].rect.localPosition = Vector3.Lerp(start2, positions[index], t);
             yield return null;
         }
         pieces[index].rect.localPosition = positions[targetIndex];
@@ -89,34 +125,7 @@ public class MinigameManager : MonoBehaviour
         CheckWin();
     }
 
-    private int CheckBlankTile(int x, int y)
-    {
-        if (y + 1 < size)
-        {
-            if (pieces[GetIndex(x, y + 1)].isBlank)
-                return GetIndex(x, y + 1);
-        }
-
-        if (y - 1 >= 0)
-        {
-            if (pieces[GetIndex(x, y - 1)].isBlank)
-                return GetIndex(x, y - 1);
-        }
-        
-        if(x + 1 < size)
-        {
-            if (pieces[GetIndex(x+1,y)].isBlank)
-                return GetIndex(x+1,y);
-        }
-        
-        if(x - 1 >= 0)
-        {
-            if (pieces[GetIndex(x-1,y)].isBlank)
-                return GetIndex(x-1,y);
-        }
-        
-        return -1;
-    }
+    
 
     private void CheckWin()
     {
