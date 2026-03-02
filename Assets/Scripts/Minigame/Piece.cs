@@ -8,7 +8,6 @@ public class Piece : MonoBehaviour
 {
     public int _id;
     public RectTransform rect;
-    public bool isBlank = false;
 
     private void Awake()
     {
@@ -23,7 +22,6 @@ public class Piece : MonoBehaviour
 
     private void OnClickPiece()
     {
-        if(MinigameManager.instance.Clickable && !isBlank)
-            MinigameManager.instance.ChangeTile(this);
+        MinigameManager.instance.PickPiece(this);
     }
 }
