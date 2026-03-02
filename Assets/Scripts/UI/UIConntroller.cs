@@ -11,13 +11,19 @@ public class UIConntroller : MonoBehaviour
     [SerializeField] private string mainScene = "MainScene";
     [SerializeField] private GameObject uiDialLock;
     [SerializeField] private GameObject uiScanCard;
-    [SerializeField] private GameObject outroVideo;
+    private GameObject outroVideo;
 
     private const string TutorialSeenKey = "Game.TutorialSeen";
+    private bool isFirstTimePlaying;    
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        outroVideo = GameObject.Find("Outro");
     }
 
     public void StartGame()
@@ -30,19 +36,20 @@ public class UIConntroller : MonoBehaviour
 
     public void LoadHome()
     {  
-        outroVideo.SetActive(false);
+        outroVideo?.SetActive(false);
         GameController.instance.isGameOver = false;
         SceneManager.LoadScene(homeScene);
     }
 
     public void LoadTutorial()
     {
+        SetTutorialSeen(true);
         SceneManager.LoadScene(tutorialScene);
     }
 
     public void LoadMain()
     {
-        outroVideo.SetActive(false);
+        outroVideo?.SetActive(false);
         GameController.instance.isGameOver = false;
         SceneManager.LoadScene(mainScene);
     }

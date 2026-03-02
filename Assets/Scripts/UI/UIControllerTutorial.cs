@@ -16,9 +16,9 @@ public class UIControllerTutorial : MonoBehaviour
     }
     private IEnumerator tutorialDiscription()
     {
-        txtDis.gameObject.SetActive(true);
+        txtDis.text = "Đến tủ quần áo để thay đồ";
         yield return new WaitForSeconds(4f);
-        txtDis.gameObject.SetActive(false);
+        txtDis.text = "Tìm kiếm vật phẩm ở kệ";
     }
     public void ClickPlay()
     {

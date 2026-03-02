@@ -121,7 +121,7 @@ public class PuzzleManager : MonoBehaviour
         do { c = Random.Range(0, 101); }
         while (c == a || c == b);
         nums.Add(c);
-        txtNoti.text = "Amazing good job!";
+        txtNoti.text = "Mật khẩu két sắt";
         passwordInfo.SetActive(true);
         txtWin.text = $"{a} - {b} - {c}";
         safeDialController.correctCode = nums;
