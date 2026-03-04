@@ -11,8 +11,8 @@ public class UIConntroller : MonoBehaviour
     [SerializeField] private string mainScene = "MainScene";
     [SerializeField] private GameObject uiDialLock;
     [SerializeField] private GameObject uiScanCard;
+    [SerializeField] private GameObject tutorialKey;
     private GameObject outroVideo;
-
     private const string TutorialSeenKey = "Game.TutorialSeen";
     private bool isFirstTimePlaying;    
 
@@ -50,6 +50,7 @@ public class UIConntroller : MonoBehaviour
     public void LoadMain()
     {
         outroVideo?.SetActive(false);
+        AudioManager.Instance.musicSource.Play();
         GameController.instance.isGameOver = false;
         SceneManager.LoadScene(mainScene);
     }
@@ -70,6 +71,15 @@ public class UIConntroller : MonoBehaviour
         SetTutorialSeen(false);
     }
 
+    public void ShowTutorialKey()
+    {
+        tutorialKey.SetActive(true);
+    }
+
+    public void HideTutorialKey()
+    {
+        tutorialKey.SetActive(false);
+    }
     private bool HasSeenTutorial()
     {
         return PlayerPrefs.GetInt(TutorialSeenKey, 0) == 1;

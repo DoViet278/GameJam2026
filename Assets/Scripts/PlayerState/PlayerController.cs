@@ -100,6 +100,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Shelf"))
         {
             researchShelf = true;
+            UIConntroller.instance.ShowTutorialKey();
+        }
+        if(LayerMask.LayerToName(collision.gameObject.layer).Contains("Clothes"))
+        {
+            UIConntroller.instance.ShowTutorialKey();
         }
     }
 
@@ -108,6 +113,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Shelf"))
         {
             researchShelf = false;
+            UIConntroller.instance.HideTutorialKey();
+        }
+        if (LayerMask.LayerToName(collision.gameObject.layer).Contains("Clothes"))
+        {
+            UIConntroller.instance.HideTutorialKey();
         }
     }
 

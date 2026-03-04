@@ -418,7 +418,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 465898783}
         m_TargetAssemblyTypeName: UIConntroller, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: LoadTutorial
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

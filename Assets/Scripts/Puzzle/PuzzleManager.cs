@@ -36,7 +36,7 @@ public class PuzzleManager : MonoBehaviour
         btnExit.onClick.AddListener(ExitPuzzle);
         PlayerController.instance.DisableInput();
         passwordInfo.SetActive(false);
-        txtNoti.text = "Try to solve the puzzle!";
+        txtNoti.text = "Sắp xếp lại ảnh!";
         txtWin.text = "";   
     }
 
@@ -157,6 +157,5 @@ public class PuzzleManager : MonoBehaviour
     public void ExitPuzzle() 
     {
         this.gameObject.SetActive(false);
-        QuestManager.Instance.CompleteCurrentQuest();
     }
 }

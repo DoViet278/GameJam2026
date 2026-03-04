@@ -30,7 +30,7 @@ public class MinigameManager : MonoBehaviour
         PlayerController.instance.DisableInput();
         
         passwordInfo.SetActive(false);
-        txtNoti.text = "Try to solve the puzzle!";
+        txtNoti.text = "Sắp xếp lại ảnh!";
     }
 
     private void Start()
@@ -144,7 +144,7 @@ public class MinigameManager : MonoBehaviour
         puzzle.SetActive(false);
         passwordInfo.SetActive(true);
         txtNoti.text = "Mật khẩu kho vàng";
-        
+        QuestManager.Instance.CompleteCurrentQuest();
     }
 
     private void ExitPuzzle()

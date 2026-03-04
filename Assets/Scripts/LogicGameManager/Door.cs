@@ -47,6 +47,7 @@ public class Door : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
+            UIConntroller.instance.ShowTutorialKey();
             if (type == DoorType.NoKey) canOpen = true;
             else if (type == DoorType.KeyRequired && GameController.instance.hasKeySecurityRoom)
             {
@@ -68,6 +69,7 @@ public class Door : MonoBehaviour
     {
         canOpen = false;
         scanCardInDoor = false;
+        UIConntroller.instance.HideTutorialKey();
     }
 
     private void OnPlayerPressE()
