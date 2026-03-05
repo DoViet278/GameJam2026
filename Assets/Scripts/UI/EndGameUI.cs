@@ -41,6 +41,7 @@ public class EndGameUI : MonoBehaviour
         //show video
         if (outtroVideo != null)
         {
+            AudioManager.Instance.musicSource.Stop();
             outtroVideo.SetActive(true);
             outro.Play();
         }

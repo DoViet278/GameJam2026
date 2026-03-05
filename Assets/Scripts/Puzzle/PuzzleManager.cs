@@ -36,7 +36,7 @@ public class PuzzleManager : MonoBehaviour
         btnExit.onClick.AddListener(ExitPuzzle);
         PlayerController.instance.DisableInput();
         passwordInfo.SetActive(false);
-        txtNoti.text = "Try to solve the puzzle!";
+        txtNoti.text = "Sắp xếp lại ảnh!";
         txtWin.text = "";   
     }
 
@@ -121,7 +121,7 @@ public class PuzzleManager : MonoBehaviour
         do { c = Random.Range(0, 101); }
         while (c == a || c == b);
         nums.Add(c);
-        txtNoti.text = "Amazing good job!";
+        txtNoti.text = "Mật khẩu két sắt";
         passwordInfo.SetActive(true);
         txtWin.text = $"{a} - {b} - {c}";
         safeDialController.correctCode = nums;
@@ -157,6 +157,5 @@ public class PuzzleManager : MonoBehaviour
     public void ExitPuzzle() 
     {
         this.gameObject.SetActive(false);
-        QuestManager.Instance.CompleteCurrentQuest();
     }
 }
