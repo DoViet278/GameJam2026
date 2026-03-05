@@ -199,9 +199,4 @@ public class MinigameManager : MonoBehaviour
         int y = index / size;
         return new Vector2Int(x, y);
     }
-
-    int GetIndex(int x, int y)
-    {
-        return y * size + x;
-    }
 }
