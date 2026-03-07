@@ -15,11 +15,13 @@ public class Safe : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         isPlayerNear = true;
+        UIConntroller.instance.ShowTutorialKey();
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         isPlayerNear = false;
+        UIConntroller.instance.HideTutorialKey();
     }
 
     private void Update()

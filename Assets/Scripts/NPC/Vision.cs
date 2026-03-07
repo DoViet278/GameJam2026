@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Vision : MonoBehaviour
@@ -537,7 +538,7 @@ public class Vision : MonoBehaviour
 
         EndGameTriggered = true;
         TryResolveEndGameUI();
-        GameController.instance.isGameOver = true;
+        StartCoroutine(delayGameOver());
     }
 
     private void TryResolveEndGameUI()
@@ -546,6 +547,12 @@ public class Vision : MonoBehaviour
             return;
 
         endGameUI = FindObjectOfType<EndGameUI>(true);
+    }
+
+    private IEnumerator delayGameOver()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GameController.instance.isGameOver = true;
     }
 
     private bool TryGetWallHit(

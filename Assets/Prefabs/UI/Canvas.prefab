@@ -972,6 +972,7 @@ RectTransform:
   - {fileID: 2946957974881971760}
   - {fileID: 5339262723612454341}
   - {fileID: 4514084426733701975}
+  - {fileID: 2179427668758931103}
   - {fileID: 2381295298765180818}
   - {fileID: 4039781589630686335}
   - {fileID: 1095210259090290078}
@@ -979,7 +980,6 @@ RectTransform:
   - {fileID: 3112906231876446466}
   - {fileID: 4999563222827751175}
   - {fileID: 2171846817633675638}
-  - {fileID: 2179427668758931103}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1067,6 +1067,7 @@ MonoBehaviour:
   mainScene: MainScene
   uiDialLock: {fileID: 2355153404985002150}
   uiScanCard: {fileID: 4060102806343271128}
+  tutorialKey: {fileID: 0}
 --- !u!114 &3345692807798113221
 MonoBehaviour:
   m_ObjectHideFlags: 0

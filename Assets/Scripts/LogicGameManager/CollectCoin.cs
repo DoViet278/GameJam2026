@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Searcher;
 using UnityEngine;
 using static CONST;
 
@@ -21,7 +20,8 @@ public class CollectCoin : MonoBehaviour
     {
         if(collision.gameObject.name == "Player")
         {
-            isPlayerNearby = true;   
+            isPlayerNearby = true;
+            UIConntroller.instance.ShowTutorialKey();
         }
     }
 
@@ -30,6 +30,7 @@ public class CollectCoin : MonoBehaviour
         if(collision.gameObject.name == "Player")
         {
             isPlayerNearby = false;
+            UIConntroller.instance.HideTutorialKey();
         }
     }
 

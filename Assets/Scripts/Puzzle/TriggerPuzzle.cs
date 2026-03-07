@@ -41,11 +41,11 @@ public class TriggerPuzzle : MonoBehaviour
 
     
     private void OnPlayerPressE(){
-        if (!played && isPlayerNearby)
+        if (isPlayerNearby)
         {
+            if(!played) QuestManager.Instance.CompleteCurrentQuest();
             played = true;
             puzzle.SetActive(true);
-            QuestManager.Instance.CompleteCurrentQuest();
         }
     }
 }

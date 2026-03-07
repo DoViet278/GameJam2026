@@ -57,6 +57,7 @@ public class ScanCardUIManager : MonoBehaviour
             resultText.text = "Mật khẩu đúng!";
             resultText.color = Color.green;
             GameController.instance.acceptedPassword = true;
+            CloseScanCardUI();
         }
         else
         {
