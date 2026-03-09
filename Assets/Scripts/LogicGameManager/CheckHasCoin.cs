@@ -11,6 +11,7 @@ public class CheckHasCoin : MonoBehaviour
             if(GameController.instance.hasCoin)
             {
                 GameController.instance.isWin = true;
+                QuestManager.Instance.CompleteCurrentQuest();
             }
         }
     }

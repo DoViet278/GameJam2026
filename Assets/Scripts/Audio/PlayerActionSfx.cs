@@ -40,8 +40,6 @@ public class PlayerActionSfx : MonoBehaviour
         if (!useDebugKey)
             return;
 
-        if (Input.GetKeyDown(debugKey))
-            PlayAction(debugActionId);
     }
 
     public void PlayAction()

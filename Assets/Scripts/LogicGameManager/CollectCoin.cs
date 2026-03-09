@@ -39,6 +39,7 @@ public class CollectCoin : MonoBehaviour
         if (isPlayerNearby)
         {
             GameController.instance.hasCoin = true;
+            QuestManager.Instance.CompleteCurrentQuest();
             Destroy(gameObject);
         }
     }

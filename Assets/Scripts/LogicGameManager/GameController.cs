@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     public static GameController instance;
 
     public int index;
+    public bool isShowDialog;    
     public bool isGameOver;
     public bool isWin;
     public bool hasCoin;
@@ -19,18 +20,19 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
-        {
-            instance = this;
-        }
-        else
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    private void OnEnable()
     {
+        isShowDialog = true;
         isGameOver = false;
         isWin = false;
         hasCoin = false;

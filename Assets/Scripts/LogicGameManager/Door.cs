@@ -60,7 +60,7 @@ public class Door : MonoBehaviour
                 if (GameController.instance.acceptedPassword)
                 {
                     canOpen = true;
-                    QuestManager.Instance.CompleteCurrentQuest();
+                    
                 }
             }
         }
