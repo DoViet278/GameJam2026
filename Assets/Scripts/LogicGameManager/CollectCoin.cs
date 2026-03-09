@@ -20,7 +20,8 @@ public class CollectCoin : MonoBehaviour
     {
         if(collision.gameObject.name == "Player")
         {
-            isPlayerNearby = true;   
+            isPlayerNearby = true;
+            UIConntroller.instance.ShowTutorialKey();
         }
     }
 
@@ -29,6 +30,7 @@ public class CollectCoin : MonoBehaviour
         if(collision.gameObject.name == "Player")
         {
             isPlayerNearby = false;
+            UIConntroller.instance.HideTutorialKey();
         }
     }
 
@@ -37,6 +39,7 @@ public class CollectCoin : MonoBehaviour
         if (isPlayerNearby)
         {
             GameController.instance.hasCoin = true;
+            QuestManager.Instance.CompleteCurrentQuest();
             Destroy(gameObject);
         }
     }

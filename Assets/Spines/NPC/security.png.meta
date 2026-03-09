@@ -93,6 +93,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -102,10 +115,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 438
-        width: 309.33334
+        width: 305
         height: 438
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -121,12 +134,12 @@ TextureImporter:
       name: security_1
       rect:
         serializedVersion: 2
-        x: 309
+        x: 305
         y: 438
-        width: 309.33334
+        width: 303
         height: 438
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -142,12 +155,12 @@ TextureImporter:
       name: security_2
       rect:
         serializedVersion: 2
-        x: 618
-        y: 438
-        width: 309.33334
-        height: 438
+        x: 608
+        y: 434
+        width: 323
+        height: 440
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -163,12 +176,12 @@ TextureImporter:
       name: security_3
       rect:
         serializedVersion: 2
-        x: 927
-        y: 438
-        width: 309.33334
-        height: 438
+        x: 931
+        y: 434
+        width: 309
+        height: 442
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -184,12 +197,12 @@ TextureImporter:
       name: security_4
       rect:
         serializedVersion: 2
-        x: 1236
-        y: 438
-        width: 309.33334
-        height: 438
+        x: 1240
+        y: 433
+        width: 305
+        height: 443
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -205,12 +218,12 @@ TextureImporter:
       name: security_5
       rect:
         serializedVersion: 2
-        x: 1545
-        y: 438
-        width: 309.33334
+        x: 1546
+        y: 431
+        width: 309
         height: 438
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -228,10 +241,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 309.33334
+        width: 305
         height: 438
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -247,12 +260,12 @@ TextureImporter:
       name: security_7
       rect:
         serializedVersion: 2
-        x: 309
+        x: 305
         y: 0
-        width: 309.33334
+        width: 303
         height: 438
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -268,12 +281,12 @@ TextureImporter:
       name: security_8
       rect:
         serializedVersion: 2
-        x: 618
+        x: 608
         y: 0
-        width: 309.33334
-        height: 438
+        width: 324
+        height: 434
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -289,12 +302,12 @@ TextureImporter:
       name: security_9
       rect:
         serializedVersion: 2
-        x: 927
+        x: 932
         y: 0
-        width: 309.33334
-        height: 438
+        width: 308
+        height: 434
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -310,12 +323,12 @@ TextureImporter:
       name: security_10
       rect:
         serializedVersion: 2
-        x: 1236
+        x: 1240
         y: 0
-        width: 309.33334
-        height: 438
+        width: 305
+        height: 433
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -333,10 +346,10 @@ TextureImporter:
         serializedVersion: 2
         x: 1545
         y: 0
-        width: 309.33334
-        height: 438
+        width: 309
+        height: 431
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

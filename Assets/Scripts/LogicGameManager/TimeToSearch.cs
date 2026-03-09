@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TimeToSearch : MonoBehaviour
 {
-    private float timeToSearch = 3f;
+    private float timeToSearch = 2f;
     private PlayerController playerController;
 
     private void Awake()

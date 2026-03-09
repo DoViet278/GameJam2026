@@ -113,12 +113,12 @@ TextureImporter:
       name: security_full_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 1902
-        width: 648
+        width: 655
         height: 913
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,12 +134,12 @@ TextureImporter:
       name: security_full_1
       rect:
         serializedVersion: 2
-        x: 647
+        x: 657
         y: 1900
-        width: 648
+        width: 631
         height: 915
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -155,12 +155,12 @@ TextureImporter:
       name: security_full_2
       rect:
         serializedVersion: 2
-        x: 1294
-        y: 1903
-        width: 648
-        height: 912
+        x: 1288
+        y: 1894
+        width: 672
+        height: 921
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -176,12 +176,12 @@ TextureImporter:
       name: security_full_3
       rect:
         serializedVersion: 2
-        x: 1941
-        y: 1903
-        width: 648
-        height: 912
+        x: 1960
+        y: 1894
+        width: 644
+        height: 921
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -197,12 +197,12 @@ TextureImporter:
       name: security_full_4
       rect:
         serializedVersion: 2
-        x: 2588
-        y: 1899
-        width: 648
-        height: 916
+        x: 2604
+        y: 1894
+        width: 632
+        height: 921
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -218,12 +218,12 @@ TextureImporter:
       name: security_full_5
       rect:
         serializedVersion: 2
-        x: 3237
-        y: 1893
+        x: 3238
+        y: 1887
         width: 648
         height: 922
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -240,11 +240,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 984
-        width: 648
-        height: 916
+        y: 990
+        width: 655
+        height: 910
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -260,12 +260,12 @@ TextureImporter:
       name: security_full_7
       rect:
         serializedVersion: 2
-        x: 647
-        y: 986
-        width: 648
-        height: 916
+        x: 655
+        y: 994
+        width: 633
+        height: 909
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -281,12 +281,12 @@ TextureImporter:
       name: security_full_8
       rect:
         serializedVersion: 2
-        x: 1296
+        x: 1288
         y: 987
-        width: 648
-        height: 916
+        width: 675
+        height: 907
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -302,12 +302,12 @@ TextureImporter:
       name: security_full_9
       rect:
         serializedVersion: 2
-        x: 1941
+        x: 1964
         y: 983
-        width: 648
-        height: 918
+        width: 642
+        height: 911
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -323,12 +323,12 @@ TextureImporter:
       name: security_full_10
       rect:
         serializedVersion: 2
-        x: 2586
+        x: 2606
         y: 983
-        width: 648
-        height: 916
+        width: 632
+        height: 911
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -344,12 +344,12 @@ TextureImporter:
       name: security_full_11
       rect:
         serializedVersion: 2
-        x: 3231
+        x: 3238
         y: 986
         width: 648
-        height: 905
+        height: 901
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -367,10 +367,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 1
-        width: 648
-        height: 982
+        width: 654
+        height: 989
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -386,12 +386,12 @@ TextureImporter:
       name: security_full_13
       rect:
         serializedVersion: 2
-        x: 647
+        x: 654
         y: 1
-        width: 648
-        height: 986
+        width: 636
+        height: 992
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -407,12 +407,12 @@ TextureImporter:
       name: security_full_14
       rect:
         serializedVersion: 2
-        x: 1294
+        x: 1290
         y: 1
-        width: 648
+        width: 652
         height: 986
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

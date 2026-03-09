@@ -66,6 +66,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        musicSource?.Stop();
+    }
+
     public void RegisterObserver(IAudioSettingsObserver observer)
     {
         if (observer == null || observers.Contains(observer))

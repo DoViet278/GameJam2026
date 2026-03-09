@@ -64,6 +64,7 @@ public class CollectKeyInShelf : MonoBehaviour
 
     IEnumerator SpawnAndFlyKey()
     {
+        yield return new WaitForSeconds(0.5f);
         GameObject key = Instantiate(keyPrefab, spawnPoint.position, Quaternion.identity);
 
         Vector3 startPos = key.transform.position;

@@ -34,11 +34,12 @@ public class EndGameUI : MonoBehaviour
     public void ShowWin()
     {
         Show(true);
+        GameController.instance.index = 0;
     }
 
     public void ShowLose()
     {
-        //show video
+        GameController.instance.index = 0;  
         if (outtroVideo != null)
         {
             AudioManager.Instance.musicSource.Stop();

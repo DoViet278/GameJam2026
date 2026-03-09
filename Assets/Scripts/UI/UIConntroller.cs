@@ -12,9 +12,9 @@ public class UIConntroller : MonoBehaviour
     [SerializeField] private GameObject uiDialLock;
     [SerializeField] private GameObject uiScanCard;
     [SerializeField] private GameObject tutorialKey;
+    [SerializeField] private GameObject dialogSystem;
     private GameObject outroVideo;
-    private const string TutorialSeenKey = "Game.TutorialSeen";
-    private bool isFirstTimePlaying;    
+    private const string TutorialSeenKey = "Game.TutorialSeen"; 
 
     private void Awake()
     {
@@ -24,27 +24,19 @@ public class UIConntroller : MonoBehaviour
     private void Start()
     {
         outroVideo = GameObject.Find("Outro");
-    }
-
-    public void StartGame()
-    {
-        if (HasSeenTutorial())
-            LoadMain();
-        else
-            LoadTutorial();
+        
+        if (GameController.instance.isShowDialog)
+        {
+            ShowDialogSystem();
+            GameController.instance.isShowDialog = false;
+        }
     }
 
     public void LoadHome()
-    {  
+    {
         outroVideo?.SetActive(false);
         GameController.instance.isGameOver = false;
         SceneManager.LoadScene(homeScene);
-    }
-
-    public void LoadTutorial()
-    {
-        SetTutorialSeen(true);
-        SceneManager.LoadScene(tutorialScene);
     }
 
     public void LoadMain()
@@ -54,23 +46,6 @@ public class UIConntroller : MonoBehaviour
         GameController.instance.isGameOver = false;
         SceneManager.LoadScene(mainScene);
     }
-
-    public void CloseToHome()
-    {
-        LoadHome();
-    }
-
-    public void NextFromTutorial()
-    {
-        SetTutorialSeen(true);
-        LoadMain();
-    }
-
-    public void ResetTutorialSeen()
-    {
-        SetTutorialSeen(false);
-    }
-
     public void ShowTutorialKey()
     {
         tutorialKey.SetActive(true);
@@ -80,16 +55,7 @@ public class UIConntroller : MonoBehaviour
     {
         tutorialKey.SetActive(false);
     }
-    private bool HasSeenTutorial()
-    {
-        return PlayerPrefs.GetInt(TutorialSeenKey, 0) == 1;
-    }
-
-    private void SetTutorialSeen(bool seen)
-    {
-        PlayerPrefs.SetInt(TutorialSeenKey, seen ? 1 : 0);
-        PlayerPrefs.Save();
-    }
+  
 
     public void ShowScanCardUI()
     {
@@ -114,4 +80,10 @@ public class UIConntroller : MonoBehaviour
         PlayerController.instance.isOpenSafe = false;
         uiDialLock.SetActive(false);
     }
+
+    public void ShowDialogSystem()
+    {
+        dialogSystem.SetActive(true);
+    }
+
 }

@@ -157,5 +157,6 @@ public class PuzzleManager : MonoBehaviour
     public void ExitPuzzle() 
     {
         this.gameObject.SetActive(false);
+        PlayerController.instance.EnableInput();
     }
 }
