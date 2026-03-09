@@ -6,7 +6,14 @@ using static CONST;
 
 public class CollectCoin : MonoBehaviour
 {
+    [SerializeField] private Sprite coinSprite;  
     private bool isPlayerNearby;
+    private ListItemSelected listItemSelected;
+
+    private void Awake()
+    {
+        listItemSelected = FindObjectOfType<ListItemSelected>();
+    }
     private void OnEnable()
     {
         ObserverManager.Register(PLAYER_PRESS_E, (Action)OnPlayerPressE);
@@ -39,6 +46,7 @@ public class CollectCoin : MonoBehaviour
         if (isPlayerNearby)
         {
             GameController.instance.hasCoin = true;
+            listItemSelected.AddItem("coin",coinSprite);
             QuestManager.Instance.CompleteCurrentQuest();
             Destroy(gameObject);
         }

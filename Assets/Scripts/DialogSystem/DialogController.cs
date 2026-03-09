@@ -80,7 +80,8 @@ public class DialogController : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
-            PlayerController.instance.EnableInput();    
+            UIConntroller.instance.ShowRolePlay();
+            PlayerController.instance.EnableInput();
         }
     }
 

@@ -22,6 +22,7 @@ public class UIControllerTutorial : MonoBehaviour
     }
     public void ClickPlay()
     {
+        GameController.instance.index = 0;
         AudioManager.Instance.musicSource.Play();
         SceneManager.LoadScene("MainScene");
     }

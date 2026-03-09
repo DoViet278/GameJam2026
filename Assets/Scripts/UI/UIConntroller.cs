@@ -13,7 +13,9 @@ public class UIConntroller : MonoBehaviour
     [SerializeField] private GameObject uiScanCard;
     [SerializeField] private GameObject tutorialKey;
     [SerializeField] private GameObject dialogSystem;
+    [SerializeField] private GameObject rolePlay;
     private GameObject outroVideo;
+    private bool isShowRolePlay = true;    
     private const string TutorialSeenKey = "Game.TutorialSeen"; 
 
     private void Awake()
@@ -29,6 +31,15 @@ public class UIConntroller : MonoBehaviour
         {
             ShowDialogSystem();
             GameController.instance.isShowDialog = false;
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            isShowRolePlay = !isShowRolePlay;
+            rolePlay.SetActive(!isShowRolePlay);
         }
     }
 
@@ -84,6 +95,11 @@ public class UIConntroller : MonoBehaviour
     public void ShowDialogSystem()
     {
         dialogSystem.SetActive(true);
+    }
+
+    public void ShowRolePlay()
+    {
+        rolePlay.SetActive(true);
     }
 
 }
