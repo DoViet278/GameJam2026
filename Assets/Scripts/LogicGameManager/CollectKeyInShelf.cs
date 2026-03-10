@@ -8,13 +8,13 @@ using static CONST;
 public class CollectKeyInShelf : MonoBehaviour
 {
     public GameObject keyPrefab;
-    public Transform spawnPoint;
     public Sprite keySprite;
 
     public float riseHeight = 1.2f;
     public float riseDuration = 1f;
     public float flyDuration = 0.6f;
 
+    private Transform spawnPoint;
     private bool searched;
     private bool isPlayerNearby;
     private ListItemSelected listItemSelected;
@@ -24,6 +24,7 @@ public class CollectKeyInShelf : MonoBehaviour
     private void Awake()
     {
         listItemSelected = FindObjectOfType<ListItemSelected>();
+        spawnPoint = gameObject.transform;
     }
 
     private void OnEnable()
