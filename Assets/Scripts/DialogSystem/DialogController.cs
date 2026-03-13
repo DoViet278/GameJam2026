@@ -80,14 +80,13 @@ public class DialogController : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
-            UIConntroller.instance.ShowRolePlay();
-            PlayerController.instance.EnableInput();
+            UIConntroller.instance.ShowTutorialQuest();
         }
     }
 
     private void OnDisable()
     {
         nextButton.onClick.RemoveListener(clickNextBtn);
-        AudioManager.Instance.musicSource.Play();
+        
     }
 }

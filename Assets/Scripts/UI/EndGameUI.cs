@@ -39,7 +39,7 @@ public class EndGameUI : MonoBehaviour
 
     public void ShowLose()
     {
-        GameController.instance.index = 0;  
+        GameController.instance.ResetGame();
         if (outtroVideo != null)
         {
             AudioManager.Instance.musicSource.Stop();

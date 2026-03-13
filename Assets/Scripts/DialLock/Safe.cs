@@ -10,7 +10,15 @@ public class Safe : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        
 
+    }
+
+    private void Start()
+    {
+        GameController.instance.safeOpended = false;
+        GameController.instance.hasCard = false;
+        animator.SetBool("open", false);  
     }
     private void OnCollisionStay2D(Collision2D collision)
     {

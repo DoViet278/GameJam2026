@@ -28,11 +28,23 @@ public class GameController : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void OnEnable()
+    }   
+    
+    private void Start()
     {
         isShowDialog = true;
+        isGameOver = false;
+        isWin = false;
+        hasCoin = false;
+        hasKeySecurityRoom = false;
+        hasCard = false;
+        scannedCard = false;
+        acceptedPassword = false;
+        index = 0;
+    }
+
+    public void ResetGame()
+    {
         isGameOver = false;
         isWin = false;
         hasCoin = false;

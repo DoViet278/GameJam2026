@@ -14,6 +14,7 @@ public class UIConntroller : MonoBehaviour
     [SerializeField] private GameObject tutorialKey;
     [SerializeField] private GameObject dialogSystem;
     [SerializeField] private GameObject rolePlay;
+    [SerializeField] private GameObject tutorialQuest;
     private GameObject outroVideo;
     private bool isShowRolePlay = true;    
     private const string TutorialSeenKey = "Game.TutorialSeen"; 
@@ -102,4 +103,13 @@ public class UIConntroller : MonoBehaviour
         rolePlay.SetActive(true);
     }
 
+    public void ShowTutorialQuest()
+    {
+        tutorialQuest.SetActive(true);
+    }
+
+    public void HideTutorialQuest()
+    {
+        tutorialQuest.SetActive(false);
+    }
 }

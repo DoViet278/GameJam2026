@@ -7,7 +7,6 @@ using static CONST;
 public class TriggerPuzzle : MonoBehaviour
 {
     public GameObject puzzle;
-    public GameObject puzzle2;
     public GameObject outline;
     
     private bool played = false;
@@ -46,7 +45,6 @@ public class TriggerPuzzle : MonoBehaviour
             if(!played) QuestManager.Instance.CompleteCurrentQuest();
             played = true;
             puzzle.SetActive(true);
-            puzzle2.SetActive(true);
         }
     }
 }

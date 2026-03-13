@@ -7,7 +7,7 @@ using static CONST;
 
 public class CollectItemInSafe : MonoBehaviour
 {
-
+    public GameObject puzzle2;
     public GameObject cardPrefab;
     public Sprite cardSprite;
 
@@ -73,6 +73,7 @@ public class CollectItemInSafe : MonoBehaviour
         GameController.instance.hasCard = true;
         Destroy(card);
         listItemSelected.AddItem("Card", cardSprite);
+        puzzle2.SetActive(true);
     }
 
 }
