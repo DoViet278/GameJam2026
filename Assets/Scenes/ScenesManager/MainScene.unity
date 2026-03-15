@@ -7699,16 +7699,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1945945667831779404, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: lines.Array.data[4].text
+      value: "Ng\u01B0\u01A1i h\xE3y tr\xE0 tr\u1ED9n v\xE0 l\u1EA5y to\xE0n b\u1ED9
+        v\xE0ng trong \u0111\xF3"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2954402687075862038, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: videoPlayer
+      value: 
+      objectReference: {fileID: 767833229}
     - target: {fileID: 2954402687075862038, guid: d600b6813a3597d40853785fa618ab54, type: 3}
       propertyPath: tutorialQuest
       value: 
       objectReference: {fileID: 767833226}
+    - target: {fileID: 3066110908021704147, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066110908021704147, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3121799412437501369, guid: d600b6813a3597d40853785fa618ab54, type: 3}
       propertyPath: m_Url
-      value: file://D:/Top_downRPG/GameJam2026/Assets/Video/cutscene.mp4
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3121799412437501369, guid: d600b6813a3597d40853785fa618ab54, type: 3}
       propertyPath: m_DataSource
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3302240368880469206, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4060102806343271128, guid: d600b6813a3597d40853785fa618ab54, type: 3}
@@ -7722,6 +7743,10 @@ PrefabInstance:
     - target: {fileID: 4543386630241096979, guid: d600b6813a3597d40853785fa618ab54, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543386630241096979, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 2.7309113
       objectReference: {fileID: 0}
     - target: {fileID: 6799500262799096138, guid: d600b6813a3597d40853785fa618ab54, type: 3}
       propertyPath: m_IsActive
@@ -7760,6 +7785,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a3e8953ef6b024d9ea198b46d98af2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!328 &767833229 stripped
+VideoPlayer:
+  m_CorrespondingSourceObject: {fileID: 3121799412437501369, guid: d600b6813a3597d40853785fa618ab54, type: 3}
+  m_PrefabInstance: {fileID: 767833225}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &782729013
 GameObject:
   m_ObjectHideFlags: 0
@@ -14806,7 +14836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7612590435015572152, guid: b461744fe82c65b478bc2f9a557899be, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.01
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 7612590435015572152, guid: b461744fe82c65b478bc2f9a557899be, type: 3}
       propertyPath: m_LocalPosition.y

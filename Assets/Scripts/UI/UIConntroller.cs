@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class UIConntroller : MonoBehaviour
 {
@@ -16,18 +17,22 @@ public class UIConntroller : MonoBehaviour
     [SerializeField] private GameObject rolePlay;
     [SerializeField] private GameObject tutorialQuest;
     private GameObject outroVideo;
+    public VideoPlayer videoPlayer;
     private bool isShowRolePlay = true;    
     private const string TutorialSeenKey = "Game.TutorialSeen"; 
 
     private void Awake()
     {
         instance = this;
+        videoPlayer.source = VideoSource.Url;
+        videoPlayer.url = Application.streamingAssetsPath + "/cutscene.mp4";
+        videoPlayer.Prepare();
     }
 
     private void Start()
     {
         outroVideo = GameObject.Find("Outro");
-        
+        PlayOutro();
         if (GameController.instance.isShowDialog)
         {
             ShowDialogSystem();
@@ -111,5 +116,10 @@ public class UIConntroller : MonoBehaviour
     public void HideTutorialQuest()
     {
         tutorialQuest.SetActive(false);
+    }
+
+    public void PlayOutro()
+    {
+        videoPlayer.Play();
     }
 }
